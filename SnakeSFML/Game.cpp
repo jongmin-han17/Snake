@@ -2,6 +2,7 @@
 #include <iostream>
 
 Game::Game()
+	: mDeltaTime(0.f)
 {
 }
 
@@ -21,6 +22,7 @@ void Game::Run()
 	Circle circle(5.f);
 	circle.setFillColor(sf::Color(255, 0, 0));
 	circle.setPosition(10, 0);
+	sf::Clock clock;
 
 	while (mWindow.isOpen())
 	{
@@ -35,20 +37,40 @@ void Game::Run()
 			}
 		}
 
+		mDeltaTime = clock.restart().asSeconds();
+
 		if (sf::Joystick::isConnected(0))
 		{
 			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 			std::cout << x << ", " << y << std::endl;
 
-			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f)
+			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 			{
-				circle.move(x, y);
+				if (!IsCollidedCircleScreen(circle))
+				{
+					circle.move(x * mDeltaTime * 2, y * mDeltaTime * 2);
+				}
 			}
 		}
-
 		mWindow.clear(sf::Color(0, 0, 0));
 		mWindow.draw(circle);
 		mWindow.display();
+	}
+}
+
+bool Game::IsCollidedCircleScreen(Circle& circle)
+{
+	if (circle.getPosition().x < 0 || circle.getPosition().x + 2 *circle.getRadius() > GAME_WIDTH)
+	{
+		return true;
+	}
+	else if (circle.getPosition().y < 0 || circle.getPosition().y + 2 * circle.getRadius() > GAME_HEIGHT)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
