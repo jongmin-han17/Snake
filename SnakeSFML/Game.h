@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "Circle.h"
 
 class Game
 {
@@ -9,5 +9,7 @@ public:
 	bool Init();
 	void Run();
 private:
+	const int GAME_WIDTH = 1280;
+	const int GAME_HEIGHT = 720;
 	sf::RenderWindow mWindow;
 };
