@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game::Game()
 {
@@ -12,7 +13,6 @@ bool Game::Init()
 {
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
 	mWindow.setFramerateLimit(60);
-
 	return true;
 }
 
@@ -21,6 +21,7 @@ void Game::Run()
 	Circle circle(5.f);
 	circle.setFillColor(sf::Color(255, 0, 0));
 	circle.setPosition(10, 0);
+
 	while (mWindow.isOpen())
 	{
 		sf::Event event;
@@ -31,6 +32,18 @@ void Game::Run()
 			{
 				mWindow.close();
 				break;
+			}
+		}
+
+		if (sf::Joystick::isConnected(0))
+		{
+			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+			std::cout << x << ", " << y << std::endl;
+
+			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f)
+			{
+				circle.move(x, y);
 			}
 		}
 
