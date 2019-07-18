@@ -58,24 +58,26 @@ void Game::Run()
 
 void Game::MoveCircle(float x, float y, Circle& circle)
 {
+	int speed = 3;
+
 	if (circle.getPosition().x < 0 && x <= 0)
 	{
-		circle.move(0, y * mDeltaTime * 2);
+		circle.move(0, y * mDeltaTime * speed);
 	}
 	else if (circle.getPosition().x + 2 * circle.getRadius() > GAME_WIDTH && x >= 0)
 	{
-		circle.move(0, y * mDeltaTime * 2);
+		circle.move(0, y * mDeltaTime * speed);
 	}
 	else if (circle.getPosition().y < 0 && y <= 0)
 	{
-		circle.move(x * mDeltaTime * 2, 0);
+		circle.move(x * mDeltaTime * speed, 0);
 	}
 	else if (circle.getPosition().y + 2 * circle.getRadius() > GAME_HEIGHT && y >= 0)
 	{
-		circle.move(x * mDeltaTime * 2, 0);
+		circle.move(x * mDeltaTime * speed, 0);
 	}
 	else
 	{
-		circle.move(x * mDeltaTime * 2, y * mDeltaTime * 2);
+		circle.move(x * mDeltaTime * speed, y * mDeltaTime * speed);
 	}
 }
