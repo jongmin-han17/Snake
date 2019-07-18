@@ -58,7 +58,7 @@ void Game::Run()
 
 void Game::MoveCircle(float x, float y, Circle& circle)
 {
-	int speed = 3;
+	int speed = 4;
 
 	if (circle.getPosition().x < 0 && x <= 0)
 	{

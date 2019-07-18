@@ -1,3 +1,6 @@
 ﻿  Game.cpp
 c:\users\jongmin\documents\snake\snakesfml\game.cpp(24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
+  LINK : C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe not found or not built by the last incremental link; performing full link
   SnakeSFML.vcxproj -> C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe
