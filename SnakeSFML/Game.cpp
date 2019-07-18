@@ -21,7 +21,7 @@ void Game::Run()
 {
 	Circle circle(5.f);
 	circle.setFillColor(sf::Color(255, 0, 0));
-	circle.setPosition(10, 0);
+	circle.setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 	sf::Clock clock;
 
 	while (mWindow.isOpen())
@@ -47,10 +47,7 @@ void Game::Run()
 
 			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 			{
-				if (!IsCollidedCircleScreen(circle))
-				{
-					circle.move(x * mDeltaTime * 2, y * mDeltaTime * 2);
-				}
+				MoveCircle(x, y, circle);
 			}
 		}
 		mWindow.clear(sf::Color(0, 0, 0));
@@ -59,18 +56,26 @@ void Game::Run()
 	}
 }
 
-bool Game::IsCollidedCircleScreen(Circle& circle)
+void Game::MoveCircle(float x, float y, Circle& circle)
 {
-	if (circle.getPosition().x < 0 || circle.getPosition().x + 2 *circle.getRadius() > GAME_WIDTH)
+	if (circle.getPosition().x < 0 && x <= 0)
 	{
-		return true;
+		circle.move(0, y * mDeltaTime * 2);
 	}
-	else if (circle.getPosition().y < 0 || circle.getPosition().y + 2 * circle.getRadius() > GAME_HEIGHT)
+	else if (circle.getPosition().x + 2 * circle.getRadius() > GAME_WIDTH && x >= 0)
 	{
-		return true;
+		circle.move(0, y * mDeltaTime * 2);
+	}
+	else if (circle.getPosition().y < 0 && y <= 0)
+	{
+		circle.move(x * mDeltaTime * 2, 0);
+	}
+	else if (circle.getPosition().y + 2 * circle.getRadius() > GAME_HEIGHT && y >= 0)
+	{
+		circle.move(x * mDeltaTime * 2, 0);
 	}
 	else
 	{
-		return false;
+		circle.move(x * mDeltaTime * 2, y * mDeltaTime * 2);
 	}
 }
