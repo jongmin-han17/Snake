@@ -4,24 +4,36 @@
 Game::Game()
 	: mDeltaTime(0.f)
 {
+	mSnake.reserve(100);
 }
 
 Game::~Game()
 {
+	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)
+	{
+		delete *iter;
+	}
 }
 
 bool Game::Init()
 {
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
 	mWindow.setFramerateLimit(60);
+
+	Circle* head = new Circle(5.f);
+	head->setFillColor(sf::Color(255, 0, 0));
+	head->setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
+
+	Circle* body1 = new Circle(5.f);
+	body1->setFillColor(sf::Color(255, 255, 255));
+
+	mSnake.push_back(head);
+
 	return true;
 }
 
 void Game::Run()
 {
-	Circle circle(5.f);
-	circle.setFillColor(sf::Color(255, 0, 0));
-	circle.setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 	sf::Clock clock;
 
 	while (mWindow.isOpen())
@@ -45,13 +57,15 @@ void Game::Run()
 			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 			std::cout << x << ", " << y << std::endl;
 
+			/*
 			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 			{
 				MoveCircle(x, y, circle);
 			}
+			*/
 		}
 		mWindow.clear(sf::Color(0, 0, 0));
-		mWindow.draw(circle);
+		mWindow.draw(*mSnake[0]);
 		mWindow.display();
 	}
 }
