@@ -9,7 +9,7 @@ public:
 	virtual ~Game();
 	bool Init();
 	void Run();
-	void MoveCircle(float x, float y, Circle& circle);
+	void MoveSnake(float x, float y);
 private:
 	const int GAME_WIDTH = 1280;
 	const int GAME_HEIGHT = 720;

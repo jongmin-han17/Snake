@@ -64,12 +64,12 @@ void Game::Run()
 			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 			std::cout << x << ", " << y << std::endl;
 
-			/*
+			
 			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 			{
-				MoveCircle(x, y, circle);
+				MoveSnake(x, y);
 			}
-			*/
+			
 		}
 		mWindow.clear(sf::Color(0, 0, 0));
 
@@ -81,7 +81,7 @@ void Game::Run()
 	}
 }
 
-void Game::MoveCircle(float x, float y, Circle& circle)
+void Game::MoveSnake(float x, float y)
 {
 	int speed = 4;
 
