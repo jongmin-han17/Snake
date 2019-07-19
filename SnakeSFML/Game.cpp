@@ -113,7 +113,7 @@ void Game::MoveSnake(float x, float y)
 		}
 		else  // Move body
 		{
-			mSnake[i]->setPosition(mSnake[i - 1]->getPosition().x, mSnake[i - 1]->getPosition().y);
+			mSnake[i]->setPosition(mSnake[i - 1]->getPosition());
 		}
 	}
 }

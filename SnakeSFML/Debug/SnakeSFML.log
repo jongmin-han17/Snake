@@ -1,3 +1,6 @@
-﻿  Game.cpp
+﻿  Circle.cpp
+  Game.cpp
 c:\users\jongmin\documents\snake\snakesfml\game.cpp(25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
   SnakeSFML.vcxproj -> C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe
