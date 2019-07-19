@@ -62,7 +62,6 @@ void Game::Run()
 		{
 			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-			std::cout << x << ", " << y << std::endl;
 
 			
 			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
@@ -84,10 +83,11 @@ void Game::Run()
 void Game::MoveSnake(float x, float y)
 {
 	int speed = 4;
-	size_t size = mSnake.size();
+	int size = static_cast<int>(mSnake.size());
 
-	for (size_t i = size - 1; i >= 0; i--)
+	for (int i = size - 1; i >= 0; i--)
 	{
+		std::cout << i << std::endl;
 		if (i == 0) // Move head
 		{
 			if (mSnake[i]->getPosition().x < 0 && x <= 0)
@@ -116,26 +116,4 @@ void Game::MoveSnake(float x, float y)
 			mSnake[i]->setPosition(mSnake[i - 1]->getPosition().x, mSnake[i - 1]->getPosition().y);
 		}
 	}
-	/*
-	if (circle.getPosition().x < 0 && x <= 0)
-	{
-		circle.move(0, y * mDeltaTime * speed);
-	}
-	else if (circle.getPosition().x + 2 * circle.getRadius() > GAME_WIDTH && x >= 0)
-	{
-		circle.move(0, y * mDeltaTime * speed);
-	}
-	else if (circle.getPosition().y < 0 && y <= 0)
-	{
-		circle.move(x * mDeltaTime * speed, 0);
-	}
-	else if (circle.getPosition().y + 2 * circle.getRadius() > GAME_HEIGHT && y >= 0)
-	{
-		circle.move(x * mDeltaTime * speed, 0);
-	}
-	else
-	{
-		circle.move(x * mDeltaTime * speed, y * mDeltaTime * speed);
-	}
-	*/
 }
