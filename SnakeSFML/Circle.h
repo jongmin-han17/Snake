@@ -6,4 +6,5 @@ class Circle : public sf::CircleShape
 public:
 	Circle(float radius);
 	virtual ~Circle();
+	const sf::Vector2f& GetCenterPosition() const;
 };
