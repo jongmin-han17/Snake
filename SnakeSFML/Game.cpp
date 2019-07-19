@@ -84,7 +84,39 @@ void Game::Run()
 void Game::MoveSnake(float x, float y)
 {
 	int speed = 4;
+	size_t size = mSnake.size();
 
+	for (size_t i = size - 1; i >= 0; i--)
+	{
+		if (i == 0) // Move head
+		{
+			if (mSnake[i]->getPosition().x < 0 && x <= 0)
+			{
+				mSnake[i]->move(0, y * mDeltaTime * speed);
+			}
+			else if (mSnake[i]->getPosition().x + 2 * mSnake[i]->getRadius() > GAME_WIDTH && x >= 0)
+			{
+				mSnake[i]->move(0, y * mDeltaTime * speed);
+			}
+			else if (mSnake[i]->getPosition().y < 0 && y <= 0)
+			{
+				mSnake[i]->move(x * mDeltaTime * speed, 0);
+			}
+			else if (mSnake[i]->getPosition().y + 2 * mSnake[i]->getRadius() > GAME_HEIGHT && y >= 0)
+			{
+				mSnake[i]->move(x * mDeltaTime * speed, 0);
+			}
+			else
+			{
+				mSnake[i]->move(x * mDeltaTime * speed, y * mDeltaTime * speed);
+			}
+		}
+		else  // Move body
+		{
+			mSnake[i]->setPosition(mSnake[i - 1]->getPosition().x, mSnake[i - 1]->getPosition().y);
+		}
+	}
+	/*
 	if (circle.getPosition().x < 0 && x <= 0)
 	{
 		circle.move(0, y * mDeltaTime * speed);
@@ -105,4 +137,5 @@ void Game::MoveSnake(float x, float y)
 	{
 		circle.move(x * mDeltaTime * speed, y * mDeltaTime * speed);
 	}
+	*/
 }
