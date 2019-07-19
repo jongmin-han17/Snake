@@ -25,10 +25,17 @@ bool Game::Init()
 	head->setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 
 	Circle* body1 = new Circle(5.f);
-	body1->setFillColor(sf::Color(255, 255, 255));
+	body1->setFillColor(sf::Color(0, 255, 0));
+	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * head->getRadius());
+
+	Circle* body2 = new Circle(5.f);
+	body2->setFillColor(sf::Color(0, 255, 0));
+	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * body1->getRadius());
+
 
 	mSnake.push_back(head);
-
+	mSnake.push_back(body1);
+	mSnake.push_back(body2);
 	return true;
 }
 
@@ -65,7 +72,11 @@ void Game::Run()
 			*/
 		}
 		mWindow.clear(sf::Color(0, 0, 0));
-		mWindow.draw(*mSnake[0]);
+
+		for (size_t i = 0; i < mSnake.size(); i++)
+		{
+			mWindow.draw(*mSnake[i]);
+		}
 		mWindow.display();
 	}
 }
