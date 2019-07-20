@@ -48,7 +48,6 @@ void Game::Run()
 	int repeat = 0;
 	while (mWindow.isOpen())
 	{
-		std::cout << repeat++ << std::endl;
 		sf::Event event;
 		while (mWindow.pollEvent(event))
 		{
@@ -69,24 +68,29 @@ void Game::Run()
 			if (mFood.empty())
 			{
 				mFood.push_back(food);
+				std::cout << "Food(" << food << ") created!\n";
 			}
 			else
 			{
+				bool bNullFound = false;
 				size_t size = mFood.size();
 				for (size_t i = 0; i < size; i++) // Check empty index to save memory
 				{
 					if (mFood[i] == nullptr)
 					{
 						mFood[i] = food;
-					}
-					else if (i == mFood.size() - 1)
-					{
-						mFood.push_back(food);
+						bNullFound = true;
+						std::cout << "Food(" << food << ") created!\n";
+						break;
 					}
 				}
-			}
 
-			std::cout << "Food created!\n";
+				if (!bNullFound)
+				{
+					mFood.push_back(food);
+					std::cout << "Food(" << food << ") created!\n";
+				}
+			}
 		}
 
 		mDeltaTime = clock.restart().asSeconds();
@@ -189,7 +193,7 @@ void Game::DetectFoodCollision()
 		{
 			if (GetDistance(mFood[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
 			{
-				std::cout << "Collision detected\n";
+				std::cout << "Food(" << mFood[i] << ") destroyed\n";
 				delete mFood[i];
 				mFood[i] = nullptr;
 
