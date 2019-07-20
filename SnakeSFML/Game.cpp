@@ -79,12 +79,15 @@ void Game::Run()
 				mWindow.close();
 				break;
 			}
+
+			// Press button A to start the game
+			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0)) 
+			{
+				mbIsPlaying = true;
+			}
 		}
 
-		if (sf::Joystick::isButtonPressed(0, 0)) // Press button A to start the game
-		{
-			mbIsPlaying = true;
-		}
+		
 
 		if (mbIsPlaying)
 		{
@@ -93,11 +96,10 @@ void Game::Run()
 				Circle* food = new Circle(mRadius);
 				food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
 				food->setFillColor(sf::Color(0, 0, 255));
-
+				std::cout << "Food(" << food << ") created!\n";
 				if (mFood.empty())
 				{
 					mFood.push_back(food);
-					std::cout << "Food(" << food << ") created!\n";
 				}
 				else
 				{
@@ -109,7 +111,6 @@ void Game::Run()
 						{
 							mFood[i] = food;
 							bNullFound = true;
-							std::cout << "Food(" << food << ") created!\n";
 							break;
 						}
 					}
@@ -117,7 +118,6 @@ void Game::Run()
 					if (!bNullFound)
 					{
 						mFood.push_back(food);
-						std::cout << "Food(" << food << ") created!\n";
 					}
 				}
 			}
