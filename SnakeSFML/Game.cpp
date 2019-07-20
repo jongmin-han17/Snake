@@ -24,7 +24,7 @@ bool Game::Init()
 
 	Circle* head = new Circle(mRadius);
 	head->setFillColor(sf::Color(255, 0, 0));
-	head->setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
+	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
 
 	Circle* body1 = new Circle(mRadius);
 	body1->setFillColor(sf::Color(0, 255, 0));
@@ -45,7 +45,6 @@ void Game::Run()
 {
 	sf::Clock clock;
 	srand(static_cast<unsigned int>(time(0)));
-	int repeat = 0;
 	while (mWindow.isOpen())
 	{
 		sf::Event event;
@@ -62,7 +61,7 @@ void Game::Run()
 		if (rand() % 200 == 0)
 		{
 			Circle* food = new Circle(mRadius);
-			food->setPosition(rand() % (GAME_WIDTH - static_cast<int>(mRadius)), rand() % (GAME_HEIGHT - static_cast<int>(mRadius)));
+			food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
 			food->setFillColor(sf::Color(0, 0, 255));
 			
 			if (mFood.empty())
