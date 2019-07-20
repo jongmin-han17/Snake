@@ -19,5 +19,6 @@ private:
 	const int GAME_HEIGHT = 720;
 	sf::RenderWindow mWindow;
 	std::vector<Circle*> mSnake;
+	std::vector<Circle*> mFood;
 	float mDeltaTime;
 };

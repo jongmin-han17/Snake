@@ -5,6 +5,7 @@ Game::Game()
 	: mDeltaTime(0.f)
 {
 	mSnake.reserve(100);
+	mFood.reserve(100);
 }
 
 Game::~Game()
@@ -42,6 +43,7 @@ bool Game::Init()
 void Game::Run()
 {
 	sf::Clock clock;
+	srand(static_cast<unsigned int>(time(0)));
 
 	while (mWindow.isOpen())
 	{
@@ -54,6 +56,13 @@ void Game::Run()
 				mWindow.close();
 				break;
 			}
+		}
+
+		if (rand() % 100 == 0)
+		{
+			Circle* food = new Circle(5.f);
+			food->setPosition(rand() % GAME_WIDTH, rand() % GAME_HEIGHT);
+			mFood.push_back(food);
 		}
 
 		mDeltaTime = clock.restart().asSeconds();
@@ -75,6 +84,11 @@ void Game::Run()
 		for (size_t i = 0; i < mSnake.size(); i++)
 		{
 			mWindow.draw(*mSnake[i]);
+		}
+
+		for (size_t i = 0; i < mFood.size(); i++)
+		{
+			mWindow.draw(*mFood[i]);
 		}
 		mWindow.display();
 	}
