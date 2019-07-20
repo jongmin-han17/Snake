@@ -23,4 +23,6 @@ private:
 	std::vector<Circle*> mFood;
 	float mDeltaTime;
 	float mRadius;
+	sf::Font mFont;
+	sf::Text mPauseMessage;
 };

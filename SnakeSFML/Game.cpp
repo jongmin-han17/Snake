@@ -11,9 +11,17 @@ Game::Game()
 
 Game::~Game()
 {
-	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)
+	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  // Destroy snake
 	{
 		delete *iter;
+	}
+
+	for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
+	{
+		if (*iter != nullptr)
+		{
+			delete *iter;
+		}
 	}
 }
 
@@ -34,10 +42,24 @@ bool Game::Init()
 	body2->setFillColor(sf::Color(0, 255, 0));
 	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
 
-
 	mSnake.push_back(head);
 	mSnake.push_back(body1);
 	mSnake.push_back(body2);
+
+	// Load the text font
+	if (!mFont.loadFromFile("C:/Users/Jongmin/source/repos/SnakeSFML/SnakeSFML/resources/sansation.ttf"))
+	{
+		std::cout << "Failed to initialize the game\n";
+		return false;
+	}
+
+	// Initialize the pause message
+	mPauseMessage.setFont(mFont);
+	mPauseMessage.setCharacterSize(40);
+	mPauseMessage.setPosition(170.f, 150.f);
+	mPauseMessage.setFillColor(sf::Color::White);
+	mPauseMessage.setString("Welcome to Ping Pong!\nPress space to start the game");
+
 	return true;
 }
 
