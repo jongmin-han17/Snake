@@ -113,8 +113,14 @@ void Game::MoveSnake(float x, float y)
 		}
 		else  // Move body
 		{
-			mSnake[i]->setPosition(mSnake[i - 1]->getPosition().x - mSnake[i]->getPosition().x - 2 * mSnake[i]->getRadius() * GetCOS(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition()),
-				mSnake[i - 1]->getPosition().y + 2 * mSnake[i]->getRadius() * GetSIN(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition()));
+			// (x - 2rcos@, y + 2rsin@)
+			float x = mSnake[i - 1]->getPosition().x;
+			float y = mSnake[i - 1]->getPosition().y;
+			float r = mSnake[i - 1]->getRadius();
+			float cos = GetCOS(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition());
+			float sin = GetSIN(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition());
+
+			mSnake[i]->setPosition(x - 2 * r * cos, y + 2 * r * sin);
 		}
 	}
 }
