@@ -85,7 +85,7 @@ void Game::MoveSnake(float x, float y)
 	int speed = 4;
 	int size = static_cast<int>(mSnake.size());
 
-	for (int i = size - 1; i >= 0; i--)
+	for (int i = 0; i < size; i++)
 	{
 		std::cout << i << std::endl;
 		if (i == 0) // Move head
@@ -113,7 +113,23 @@ void Game::MoveSnake(float x, float y)
 		}
 		else  // Move body
 		{
-			mSnake[i]->setPosition(mSnake[i - 1]->getPosition());
+			mSnake[i]->setPosition(mSnake[i - 1]->getPosition().x - mSnake[i]->getPosition().x - 2 * mSnake[i]->getRadius() * GetCOS(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition()),
+				mSnake[i - 1]->getPosition().y + 2 * mSnake[i]->getRadius() * GetSIN(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition()));
 		}
 	}
+}
+
+float Game::GetDistance(sf::Vector2f point1, sf::Vector2f point2)
+{
+	return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
+}
+
+float Game::GetCOS(sf::Vector2f point1, sf::Vector2f point2)
+{
+	return (point1.x - point2.x) / GetDistance(point1, point2);
+}
+
+float Game::GetSIN(sf::Vector2f point1, sf::Vector2f point2)
+{
+	return (point2.y - point1.y) / GetDistance(point1, point2);
 }
