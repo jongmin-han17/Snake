@@ -25,4 +25,5 @@ private:
 	float mRadius;
 	sf::Font mFont;
 	sf::Text mPauseMessage;
+	bool mbIsPlaying;
 };

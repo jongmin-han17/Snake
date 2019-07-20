@@ -4,6 +4,7 @@
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
+	, mbIsPlaying(false)
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -58,7 +59,7 @@ bool Game::Init()
 	mPauseMessage.setCharacterSize(40);
 	mPauseMessage.setPosition(170.f, 150.f);
 	mPauseMessage.setFillColor(sf::Color::White);
-	mPauseMessage.setString("Welcome to Ping Pong!\nPress space to start the game");
+	mPauseMessage.setString("Welcome to Snake!\nPress A to start the game");
 
 	return true;
 }
@@ -80,68 +81,85 @@ void Game::Run()
 			}
 		}
 
-		if (rand() % 200 == 0)
+		if (sf::Joystick::isButtonPressed(0, 0)) // Press button A to start the game
 		{
-			Circle* food = new Circle(mRadius);
-			food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
-			food->setFillColor(sf::Color(0, 0, 255));
-			
-			if (mFood.empty())
-			{
-				mFood.push_back(food);
-				std::cout << "Food(" << food << ") created!\n";
-			}
-			else
-			{
-				bool bNullFound = false;
-				size_t size = mFood.size();
-				for (size_t i = 0; i < size; i++) // Check empty index to save memory
-				{
-					if (mFood[i] == nullptr)
-					{
-						mFood[i] = food;
-						bNullFound = true;
-						std::cout << "Food(" << food << ") created!\n";
-						break;
-					}
-				}
+			mbIsPlaying = true;
+		}
 
-				if (!bNullFound)
+		if (mbIsPlaying)
+		{
+			if (rand() % 200 == 0)
+			{
+				Circle* food = new Circle(mRadius);
+				food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
+				food->setFillColor(sf::Color(0, 0, 255));
+
+				if (mFood.empty())
 				{
 					mFood.push_back(food);
 					std::cout << "Food(" << food << ") created!\n";
 				}
+				else
+				{
+					bool bNullFound = false;
+					size_t size = mFood.size();
+					for (size_t i = 0; i < size; i++) // Check empty index to save memory
+					{
+						if (mFood[i] == nullptr)
+						{
+							mFood[i] = food;
+							bNullFound = true;
+							std::cout << "Food(" << food << ") created!\n";
+							break;
+						}
+					}
+
+					if (!bNullFound)
+					{
+						mFood.push_back(food);
+						std::cout << "Food(" << food << ") created!\n";
+					}
+				}
 			}
-		}
 
-		mDeltaTime = clock.restart().asSeconds();
+			mDeltaTime = clock.restart().asSeconds();
 
-		if (sf::Joystick::isConnected(0))
-		{
-			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-			float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-			
-			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
+			if (sf::Joystick::isConnected(0))
 			{
-				MoveSnake(x, y);
-				DetectFoodCollision();
+				float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+				float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+
+				if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
+				{
+					MoveSnake(x, y);
+					DetectFoodCollision();
+				}
+
 			}
-			
 		}
+
+
 		mWindow.clear(sf::Color(0, 0, 0));
-
-		for (size_t i = 0; i < mSnake.size(); i++)
+		if (mbIsPlaying)
 		{
-			mWindow.draw(*mSnake[i]);
-		}
-
-		for (size_t i = 0; i < mFood.size(); i++)
-		{
-			if (mFood[i] != nullptr)
+			for (size_t i = 0; i < mSnake.size(); i++)
 			{
-				mWindow.draw(*mFood[i]);
+				mWindow.draw(*mSnake[i]);
 			}
+
+			for (size_t i = 0; i < mFood.size(); i++)
+			{
+				if (mFood[i] != nullptr)
+				{
+					mWindow.draw(*mFood[i]);
+				}
+			}
+		}
+		else
+		{
+			// Draw the pause message
+			mWindow.draw(mPauseMessage);
 		}
 		mWindow.display();
 	}
@@ -193,7 +211,7 @@ void Game::MoveSnake(float x, float y)
 
 float Game::GetDistance(sf::Vector2f point1, sf::Vector2f point2)
 {
-	return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
+	return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));  // Pythagorean theorem
 }
 
 float Game::GetCOS(sf::Vector2f point1, sf::Vector2f point2)
