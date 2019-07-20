@@ -3,6 +3,7 @@
 
 Game::Game()
 	: mDeltaTime(0.f)
+	, mRadius(5.f)
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -21,17 +22,17 @@ bool Game::Init()
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
 	mWindow.setFramerateLimit(60);
 
-	Circle* head = new Circle(5.f);
+	Circle* head = new Circle(mRadius);
 	head->setFillColor(sf::Color(255, 0, 0));
 	head->setPosition(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 
-	Circle* body1 = new Circle(5.f);
+	Circle* body1 = new Circle(mRadius);
 	body1->setFillColor(sf::Color(0, 255, 0));
-	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * head->getRadius());
+	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * mRadius);
 
-	Circle* body2 = new Circle(5.f);
+	Circle* body2 = new Circle(mRadius);
 	body2->setFillColor(sf::Color(0, 255, 0));
-	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * body1->getRadius());
+	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
 
 
 	mSnake.push_back(head);
@@ -58,11 +59,13 @@ void Game::Run()
 			}
 		}
 
-		if (rand() % 100 == 0)
+		if (rand() % 1000 == 0)
 		{
-			Circle* food = new Circle(5.f);
-			food->setPosition(rand() % GAME_WIDTH, rand() % GAME_HEIGHT);
+			Circle* food = new Circle(mRadius);
+			food->setPosition(rand() % (GAME_WIDTH - static_cast<int>(mRadius)), rand() % (GAME_HEIGHT - static_cast<int>(mRadius)));
+			food->setFillColor(sf::Color(0, 0, 255));
 			mFood.push_back(food);
+			std::cout << "Food created!\n";
 		}
 
 		mDeltaTime = clock.restart().asSeconds();
@@ -101,7 +104,6 @@ void Game::MoveSnake(float x, float y)
 
 	for (int i = 0; i < size; i++)
 	{
-		std::cout << i << std::endl;
 		if (i == 0) // Move head
 		{
 			if (mSnake[i]->getPosition().x < 0 && x <= 0)
@@ -130,7 +132,7 @@ void Game::MoveSnake(float x, float y)
 			// (x - 2rcos@, y + 2rsin@)
 			float x = mSnake[i - 1]->getPosition().x;
 			float y = mSnake[i - 1]->getPosition().y;
-			float r = mSnake[i - 1]->getRadius();
+			float r = mRadius;
 			float cos = GetCOS(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition());
 			float sin = GetSIN(mSnake[i - 1]->getPosition(), mSnake[i]->getPosition());
 
@@ -152,4 +154,9 @@ float Game::GetCOS(sf::Vector2f point1, sf::Vector2f point2)
 float Game::GetSIN(sf::Vector2f point1, sf::Vector2f point2)
 {
 	return (point2.y - point1.y) / GetDistance(point1, point2);
+}
+
+void Game::DetectFoodCollision()
+{
+
 }
