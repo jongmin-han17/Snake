@@ -158,5 +158,14 @@ float Game::GetSIN(sf::Vector2f point1, sf::Vector2f point2)
 
 void Game::DetectFoodCollision()
 {
+	if (GetDistance(mFood[0]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
+	{
+		delete mFood[0];
+		mFood[0] = nullptr;
 
+		Circle* body = new Circle(mRadius);
+		body->setFillColor(sf::Color(0, 255, 0));
+		body->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
+		mSnake.push_back(body);
+	}
 }
