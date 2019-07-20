@@ -45,9 +45,10 @@ void Game::Run()
 {
 	sf::Clock clock;
 	srand(static_cast<unsigned int>(time(0)));
-
+	int repeat = 0;
 	while (mWindow.isOpen())
 	{
+		std::cout << repeat++ << std::endl;
 		sf::Event event;
 		while (mWindow.pollEvent(event))
 		{
@@ -59,12 +60,32 @@ void Game::Run()
 			}
 		}
 
-		if (rand() % 1000 == 0)
+		if (rand() % 200 == 0)
 		{
 			Circle* food = new Circle(mRadius);
 			food->setPosition(rand() % (GAME_WIDTH - static_cast<int>(mRadius)), rand() % (GAME_HEIGHT - static_cast<int>(mRadius)));
 			food->setFillColor(sf::Color(0, 0, 255));
-			mFood.push_back(food);
+			
+			if (mFood.empty())
+			{
+				mFood.push_back(food);
+			}
+			else
+			{
+				size_t size = mFood.size();
+				for (size_t i = 0; i < size; i++) // Check empty index to save memory
+				{
+					if (mFood[i] == nullptr)
+					{
+						mFood[i] = food;
+					}
+					else if (i == mFood.size() - 1)
+					{
+						mFood.push_back(food);
+					}
+				}
+			}
+
 			std::cout << "Food created!\n";
 		}
 
@@ -79,6 +100,7 @@ void Game::Run()
 			if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 			{
 				MoveSnake(x, y);
+				DetectFoodCollision();
 			}
 			
 		}
@@ -91,7 +113,10 @@ void Game::Run()
 
 		for (size_t i = 0; i < mFood.size(); i++)
 		{
-			mWindow.draw(*mFood[i]);
+			if (mFood[i] != nullptr)
+			{
+				mWindow.draw(*mFood[i]);
+			}
 		}
 		mWindow.display();
 	}
@@ -158,14 +183,22 @@ float Game::GetSIN(sf::Vector2f point1, sf::Vector2f point2)
 
 void Game::DetectFoodCollision()
 {
-	if (GetDistance(mFood[0]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
+	for (size_t i = 0; i < mFood.size(); i++)
 	{
-		delete mFood[0];
-		mFood[0] = nullptr;
+		if (mFood[i] != nullptr)
+		{
+			if (GetDistance(mFood[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
+			{
+				std::cout << "Collision detected\n";
+				delete mFood[i];
+				mFood[i] = nullptr;
 
-		Circle* body = new Circle(mRadius);
-		body->setFillColor(sf::Color(0, 255, 0));
-		body->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
-		mSnake.push_back(body);
+				Circle* body = new Circle(mRadius);
+				body->setFillColor(sf::Color(0, 255, 0));
+				body->setPosition(-10, -10);
+				mSnake.push_back(body);
+				break;
+			}
+		}
 	}
 }
