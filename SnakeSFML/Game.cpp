@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <cmath>
 
 Game::Game()
 	: mDeltaTime(0.f)
@@ -133,14 +134,19 @@ void Game::Run()
 
 				if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 				{
+					std::cout << "(" << x << ", " << y << ")\n";
+
 					MoveSnake(x, y);
 					DetectFoodCollision();
 				}
 				else
 				{
-					int speed = 50;
+					int speed = 30;
+					// cos@ = delta x / 2r
+					// sin@ = deta y / 2r
+					// MoveSnake(speed * cos@, speed * sin@)
 					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius), 
-						speed * (mSnake[1]->GetCenterPosition().y - mSnake[0]->GetCenterPosition().y)/ (2 * mRadius));
+						speed * (mSnake[0]->GetCenterPosition().y - mSnake[1]->GetCenterPosition().y) / (2 * mRadius));
 					DetectFoodCollision();
 				}
 			}
