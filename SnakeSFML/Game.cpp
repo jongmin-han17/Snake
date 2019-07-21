@@ -32,7 +32,7 @@ bool Game::Init()
 	mWindow.setFramerateLimit(60);
 
 	Circle* head = new Circle(mRadius);
-	head->setFillColor(sf::Color(255, 0, 0));
+	head->setFillColor(sf::Color(145, 2, 247));
 	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
 
 	Circle* body1 = new Circle(mRadius);
@@ -68,6 +68,7 @@ void Game::Run()
 {
 	sf::Clock clock;
 	srand(static_cast<unsigned int>(time(0)));
+
 	while (mWindow.isOpen())
 	{
 		sf::Event event;
@@ -135,7 +136,13 @@ void Game::Run()
 					MoveSnake(x, y);
 					DetectFoodCollision();
 				}
-
+				else
+				{
+					int speed = 50;
+					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius), 
+						speed * (mSnake[1]->GetCenterPosition().y - mSnake[0]->GetCenterPosition().y)/ (2 * mRadius));
+					DetectFoodCollision();
+				}
 			}
 		}
 
@@ -161,6 +168,7 @@ void Game::Run()
 			// Draw the pause message
 			mWindow.draw(mPauseMessage);
 		}
+
 		mWindow.display();
 	}
 }
