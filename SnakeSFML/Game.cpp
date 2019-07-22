@@ -5,7 +5,7 @@
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
-	, mbIsPlaying(false)
+	, mGameState(STATE_GAMEMENU)
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -85,14 +85,20 @@ void Game::Run()
 			// Press button A to start the game
 			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0)) 
 			{
-				mbIsPlaying = true;
+				mGameState = STATE_PLAY;
 			}
 		}
 
 		
-
-		if (mbIsPlaying)
+		switch (mGameState)
 		{
+		case STATE_GAMEMENU:
+			mWindow.clear(sf::Color(0, 0, 0));
+			// Draw the pause message
+			mWindow.draw(mPauseMessage);
+			mWindow.display();
+			break;
+		case STATE_PLAY:
 			if (rand() % 200 == 0)
 			{
 				Circle* food = new Circle(mRadius);
@@ -145,17 +151,12 @@ void Game::Run()
 					// cos@ = delta x / 2r
 					// sin@ = deta y / 2r
 					// MoveSnake(speed * cos@, speed * sin@)
-					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius), 
+					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius),
 						speed * (mSnake[0]->GetCenterPosition().y - mSnake[1]->GetCenterPosition().y) / (2 * mRadius));
 					DetectFoodCollision();
 				}
 			}
-		}
-
-
-		mWindow.clear(sf::Color(0, 0, 0));
-		if (mbIsPlaying)
-		{
+			mWindow.clear(sf::Color(0, 0, 0));
 			for (size_t i = 0; i < mSnake.size(); i++)
 			{
 				mWindow.draw(*mSnake[i]);
@@ -168,14 +169,11 @@ void Game::Run()
 					mWindow.draw(*mFood[i]);
 				}
 			}
+			mWindow.display();
+			break;
+		case STATE_GAMEOVER:
+			break;
 		}
-		else
-		{
-			// Draw the pause message
-			mWindow.draw(mPauseMessage);
-		}
-
-		mWindow.display();
 	}
 }
 

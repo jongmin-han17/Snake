@@ -1,5 +1,6 @@
 #pragma once
 #include "Circle.h"
+#include "eState.h"
 #include <vector>
 #include <cmath>
 
@@ -25,5 +26,5 @@ private:
 	float mRadius;
 	sf::Font mFont;
 	sf::Text mPauseMessage;
-	bool mbIsPlaying;
+	eState mGameState;
 };
