@@ -144,7 +144,7 @@ void Game::Run()
 				Circle* poison = new Circle(mRadius);
 				poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
 				poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
-
+				std::cout << "Poisoned Food(" << poison << ") created!\n";
 				if (mPoison.empty())
 				{
 					mPoison.push_back(poison);
@@ -205,6 +205,14 @@ void Game::Run()
 				if (mFood[i] != nullptr)
 				{
 					mWindow.draw(*mFood[i]);
+				}
+			}
+
+			for (size_t i = 0; i < mPoison.size(); i++)
+			{
+				if (mPoison[i] != nullptr)
+				{
+					mWindow.draw(*mPoison[i]);
 				}
 			}
 			mWindow.display();
