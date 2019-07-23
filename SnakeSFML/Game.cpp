@@ -9,6 +9,7 @@ Game::Game()
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
+	mPoison.reserve(100);
 }
 
 Game::~Game()
@@ -19,6 +20,14 @@ Game::~Game()
 	}
 
 	for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
+	{
+		if (*iter != nullptr)
+		{
+			delete *iter;
+		}
+	}
+
+	for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) // Destroy poisoned foods
 	{
 		if (*iter != nullptr)
 		{
@@ -99,7 +108,7 @@ void Game::Run()
 			mWindow.display();
 			break;
 		case STATE_PLAY:
-			if (rand() % 200 == 0)
+			if (rand() % 200 == 0)  // Create food
 			{
 				Circle* food = new Circle(mRadius);
 				food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
@@ -126,6 +135,37 @@ void Game::Run()
 					if (!bNullFound)
 					{
 						mFood.push_back(food);
+					}
+				}
+			}
+
+			if (rand() % 500 == 0) // Create poisoned food
+			{
+				Circle* poison = new Circle(mRadius);
+				poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
+				poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
+
+				if (mPoison.empty())
+				{
+					mPoison.push_back(poison);
+				}
+				else
+				{
+					bool bNullFound = false;
+					size_t size = mPoison.size();
+					for (size_t i = 0; i < size; i++) // Check empty index to save memory
+					{
+						if (mPoison[i] == nullptr)
+						{
+							mPoison[i] = poison;
+							bNullFound = true;
+							break;
+						}
+					}
+
+					if (!bNullFound)
+					{
+						mPoison.push_back(poison);
 					}
 				}
 			}
@@ -170,6 +210,11 @@ void Game::Run()
 			mWindow.display();
 			break;
 		case STATE_GAMEOVER:
+			mPauseMessage.setString("GAME OVER");
+			mWindow.clear(sf::Color(0, 0, 0));
+			// Draw the pause message
+			mWindow.draw(mPauseMessage);
+			mWindow.display();
 			break;
 		}
 	}

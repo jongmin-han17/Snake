@@ -22,6 +22,7 @@ private:
 	sf::RenderWindow mWindow;
 	std::vector<Circle*> mSnake;
 	std::vector<Circle*> mFood;
+	std::vector<Circle*> mPoison;
 	float mDeltaTime;
 	float mRadius;
 	sf::Font mFont;
