@@ -100,6 +100,7 @@ void Game::Run()
 					{
 						delete *iter;
 					}
+					mSnake.clear();
 
 					for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
 					{
@@ -108,6 +109,7 @@ void Game::Run()
 							delete *iter;
 						}
 					}
+					mFood.clear();
 
 					for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) // Destroy poisoned foods
 					{
@@ -116,6 +118,7 @@ void Game::Run()
 							delete *iter;
 						}
 					}
+					mPoison.clear();
 
 					Init();
 				}
