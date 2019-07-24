@@ -1,3 +1,8 @@
 ﻿  Game.cpp
-Game.obj : error LNK2001: unresolved external symbol "public: static class GameMenuState IGameState::gameMenu" (?gameMenu@IGameState@@2VGameMenuState@@A)
-C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe : fatal error LNK1120: 1 unresolved externals
+c:\users\jongmin\documents\snake\snakesfml\game.cpp(8): error C2440: 'initializing': cannot convert from 'GameMenuState *' to 'IGameState *'
+  c:\users\jongmin\documents\snake\snakesfml\game.cpp(8): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\jongmin\documents\snake\snakesfml\game.cpp(8): error C2439: 'Game::mState': member could not be initialized
+  c:\users\jongmin\documents\snake\snakesfml\game.h(34): note: see declaration of 'Game::mState'
+  GameMenuState.cpp
+  main.cpp
+  Generating Code...
