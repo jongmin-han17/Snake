@@ -73,7 +73,12 @@ bool Game::Init()
 
 	return true;
 }
+void Game::Run()
+{
+	mState->Run(*this);
+}
 
+/*
 void Game::Run()
 {
 	sf::Clock clock;
@@ -257,7 +262,7 @@ void Game::Run()
 		}
 	}
 }
-
+*/
 void Game::MoveSnake(float x, float y)
 {
 	int speed = 4;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Circle.h"
 #include "eState.h"
+#include "IGameState.h"
 #include <vector>
 #include <cmath>
 
@@ -29,4 +30,5 @@ private:
 	sf::Font mFont;
 	sf::Text mPauseMessage;
 	eState mGameState;
+	IGameState* mState;
 };
