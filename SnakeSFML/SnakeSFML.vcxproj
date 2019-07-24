@@ -133,12 +133,15 @@
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMenuState.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
     <ClInclude Include="eState.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMenuState.h" />
+    <ClInclude Include="IGameState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
