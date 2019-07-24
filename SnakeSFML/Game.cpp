@@ -182,6 +182,7 @@ void Game::Run()
 				{
 					MoveSnake(x, y);
 					DetectFoodCollision();
+					DetectPoisonCollision();
 				}
 				else
 				{
@@ -191,7 +192,8 @@ void Game::Run()
 					// MoveSnake(speed * cos@, speed * sin@)
 					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius),
 						speed * (mSnake[0]->GetCenterPosition().y - mSnake[1]->GetCenterPosition().y) / (2 * mRadius));
-					DetectFoodCollision();
+					DetectFoodCollision(); 
+					DetectPoisonCollision();
 				}
 			}
 			mWindow.clear(sf::Color(0, 0, 0));
@@ -303,6 +305,24 @@ void Game::DetectFoodCollision()
 				body->setFillColor(sf::Color(0, 255, 0));
 				body->setPosition(-10, -10);
 				mSnake.push_back(body);
+				break;
+			}
+		}
+	}
+}
+
+void Game::DetectPoisonCollision()
+{
+	for (size_t i = 0; i < mPoison.size(); i++)
+	{
+		if (mPoison[i] != nullptr)
+		{
+			if (GetDistance(mPoison[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
+			{
+				std::cout << "Poisoned food(" << mPoison[i] << ") destroyed\n";
+				delete mPoison[i];
+				mPoison[i] = nullptr;
+				mGameState = STATE_GAMEOVER;
 				break;
 			}
 		}

@@ -16,6 +16,7 @@ public:
 	float GetCOS(sf::Vector2f point1, sf::Vector2f point2);
 	float GetSIN(sf::Vector2f point1, sf::Vector2f point2);
 	void DetectFoodCollision();
+	void DetectPoisonCollision();
 private:
 	const int GAME_WIDTH = 1280;
 	const int GAME_HEIGHT = 720;
