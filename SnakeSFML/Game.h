@@ -1,10 +1,9 @@
 #pragma once
 #include "Circle.h"
-#include "IGameState.h"
-#include "GameMenuState.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include "IGameState.h"
 
 class Game
 {

@@ -4,5 +4,6 @@ c:\users\jongmin\documents\snake\snakesfml\game.cpp(8): error C2440: 'initializi
 c:\users\jongmin\documents\snake\snakesfml\game.cpp(8): error C2439: 'Game::mState': member could not be initialized
   c:\users\jongmin\documents\snake\snakesfml\game.h(34): note: see declaration of 'Game::mState'
   GameMenuState.cpp
+  GamePlayState.cpp
   main.cpp
   Generating Code...

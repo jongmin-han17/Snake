@@ -3,9 +3,9 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 
+class Game;
 class GameMenuState;
 class GamePlayState;
-class Game;
 
 class IGameState
 {
