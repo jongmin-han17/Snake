@@ -94,6 +94,31 @@ void Game::Run()
 			// Press button A to start the game
 			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0)) 
 			{
+				if (mGameState == STATE_GAMEOVER)
+				{
+					for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  // Destroy snake
+					{
+						delete *iter;
+					}
+
+					for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
+					{
+						if (*iter != nullptr)
+						{
+							delete *iter;
+						}
+					}
+
+					for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) // Destroy poisoned foods
+					{
+						if (*iter != nullptr)
+						{
+							delete *iter;
+						}
+					}
+
+					Init();
+				}
 				mGameState = STATE_PLAY;
 			}
 		}
@@ -220,7 +245,7 @@ void Game::Run()
 			mWindow.display();
 			break;
 		case STATE_GAMEOVER:
-			mPauseMessage.setString("GAME OVER");
+			mPauseMessage.setString("GAME OVER\nPress A to restart the game");
 			mWindow.clear(sf::Color(0, 0, 0));
 			// Draw the pause message
 			mWindow.draw(mPauseMessage);
