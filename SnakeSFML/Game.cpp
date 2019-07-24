@@ -1,12 +1,11 @@
 #include "Game.h"
-#include <iostream>
-#include <cmath>
+
 
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
-	, mGameState(STATE_GAMEMENU)
-{
+	, mState(&IGameState::gameMenu)
+{	
 	mSnake.reserve(100);
 	mFood.reserve(100);
 	mPoison.reserve(100);
@@ -355,9 +354,19 @@ void Game::DetectPoisonCollision()
 				std::cout << "Poisoned food(" << mPoison[i] << ") destroyed\n";
 				delete mPoison[i];
 				mPoison[i] = nullptr;
-				mGameState = STATE_GAMEOVER;
+				//mGameState = STATE_GAMEOVER;
 				break;
 			}
 		}
 	}
+}
+
+sf::RenderWindow& Game::GetWindow()
+{
+	return mWindow;
+}
+
+sf::Text& Game::GetPauseMessage()
+{
+	return mPauseMessage;
 }

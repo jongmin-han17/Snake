@@ -1,9 +1,10 @@
 #pragma once
 #include "Circle.h"
-#include "eState.h"
 #include "IGameState.h"
+#include "GameMenuState.h"
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 class Game
 {
@@ -18,6 +19,8 @@ public:
 	float GetSIN(sf::Vector2f point1, sf::Vector2f point2);
 	void DetectFoodCollision();
 	void DetectPoisonCollision();
+	sf::RenderWindow& GetWindow();
+	sf::Text& GetPauseMessage();
 private:
 	const int GAME_WIDTH = 1280;
 	const int GAME_HEIGHT = 720;
@@ -29,6 +32,5 @@ private:
 	float mRadius;
 	sf::Font mFont;
 	sf::Text mPauseMessage;
-	eState mGameState;
 	IGameState* mState;
 };

@@ -1,8 +1,6 @@
 #pragma once
 #include "IGameState.h"
-#include <vector>
-#include <cmath>
-#include <SFML/Graphics.hpp>
+#include "Game.h"
 
 class GameMenuState : public IGameState
 {
