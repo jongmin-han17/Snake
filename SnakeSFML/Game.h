@@ -3,7 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
-#include "IGameState.h"
+#include "GamePlayState.h"
+#include "GameMenuState.h"
 
 class Game
 {
