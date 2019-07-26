@@ -1,1 +1,49 @@
-﻿  SnakeSFML.vcxproj -> C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe
+﻿  Game.cpp
+  GameMenuState.cpp
+  GamePlayState.cpp
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(8): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(9): error C2065: 'GAME_WIDTH': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(9): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(9): error C2065: 'GAME_HEIGHT': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(12): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(14): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(19): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(22): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(24): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(32): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(39): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(40): error C2065: 'GAME_WIDTH': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(40): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(40): error C2065: 'GAME_HEIGHT': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(43): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(45): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(50): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(53): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(55): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(63): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(68): error C2065: 'mDeltaTime': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(78): error C3861: 'MoveSnake': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(79): error C3861: 'DetectFoodCollision': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(80): error C3861: 'DetectPoisonCollision': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(88): error C2065: 'mSnake': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(88): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(89): error C2065: 'mSnake': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(89): error C2065: 'mRadius': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(88): error C3861: 'MoveSnake': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(90): error C3861: 'DetectFoodCollision': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(91): error C3861: 'DetectPoisonCollision': identifier not found
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(94): error C2065: 'mWindow': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(95): error C2065: 'mSnake': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(97): error C2065: 'mWindow': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(97): error C2065: 'mSnake': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(100): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(102): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(104): error C2065: 'mWindow': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(104): error C2065: 'mFood': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(108): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(110): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(112): error C2065: 'mWindow': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(112): error C2065: 'mPoison': undeclared identifier
+c:\users\jongmin\documents\snake\snakesfml\gameplaystate.cpp(115): error C2065: 'mWindow': undeclared identifier
+  main.cpp
+  Generating Code...

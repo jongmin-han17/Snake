@@ -2,7 +2,6 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
-#include "GameMenuState.h"
 
 class Game;
 

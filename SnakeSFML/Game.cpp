@@ -3,8 +3,8 @@
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
+	, mState(new GameMenuState())
 {	
-	mState = new GameMenuState();
 	mSnake.reserve(100);
 	mFood.reserve(100);
 	mPoison.reserve(100);
