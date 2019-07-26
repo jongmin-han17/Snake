@@ -1,7 +1,1 @@
-﻿  Game.cpp
-  GameMenuState.cpp
-  GamePlayState.cpp
-  main.cpp
-  Generating Code...
-Game.obj : error LNK2001: unresolved external symbol "public: static class GameMenuState IGameState::gameMenu" (?gameMenu@IGameState@@2VGameMenuState@@A)
-C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe : fatal error LNK1120: 1 unresolved externals
+﻿  SnakeSFML.vcxproj -> C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe

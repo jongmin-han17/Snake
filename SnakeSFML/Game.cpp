@@ -1,11 +1,10 @@
 #include "Game.h"
-#include "GameMenuState.h"
 
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
 {	
-	mState = &IGameState::gameMenu;
+	mState = new GameMenuState();
 	mSnake.reserve(100);
 	mFood.reserve(100);
 	mPoison.reserve(100);

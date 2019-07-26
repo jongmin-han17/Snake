@@ -1,4 +1,5 @@
 #include "GameMenuState.h"
+#include "Game.h"
 
 void GameMenuState::Run(Game& game)
 {

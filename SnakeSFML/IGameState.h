@@ -2,15 +2,12 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
-#include "Game.h"
+#include "GameMenuState.h"
 
-class GameMenuState;
-class GamePlayState;
+class Game;
 
 class IGameState
 {
 public:
-	static GameMenuState gameMenu;
-	static GamePlayState gamePlay;
 	virtual void Run(Game& game) = 0;
 };
