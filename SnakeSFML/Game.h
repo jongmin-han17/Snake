@@ -20,9 +20,12 @@ public:
 	void DetectPoisonCollision();
 	sf::RenderWindow& GetWindow();
 	sf::Text& GetPauseMessage();
+	float GetRadius();
+	std::vector<Circle*>& GetSnake();
+	std::vector<Circle*>& GetFood();
+	std::vector<Circle*>& GetPoison();
+	void SetState(IGameState* state);
 private:
-	const int GAME_WIDTH = 1280;
-	const int GAME_HEIGHT = 720;
 	sf::RenderWindow mWindow;
 	std::vector<Circle*> mSnake;
 	std::vector<Circle*> mFood;

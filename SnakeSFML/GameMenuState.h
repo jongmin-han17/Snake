@@ -4,5 +4,5 @@
 class GameMenuState : public IGameState
 {
 public:
-	virtual void Run(Game& game);
+	void Run(Game& game);
 };

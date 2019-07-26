@@ -73,18 +73,13 @@ bool Game::Init()
 }
 void Game::Run()
 {
-	mState->Run(*this);
-}
-
-/*
-void Game::Run()
-{
 	sf::Clock clock;
 	srand(static_cast<unsigned int>(time(0)));
 
 	while (mWindow.isOpen())
 	{
 		sf::Event event;
+
 		while (mWindow.pollEvent(event))
 		{
 			// Window closed or escape key pressed: exit
@@ -95,7 +90,7 @@ void Game::Run()
 			}
 
 			// Press button A to start the game
-			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0)) 
+			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0))
 			{
 				if (mGameState == STATE_GAMEOVER)
 				{
@@ -129,6 +124,13 @@ void Game::Run()
 			}
 		}
 
+		mState->Run(*this);
+	}
+}
+
+/*
+void Game::Run()
+{
 		
 		switch (mGameState)
 		{
@@ -258,7 +260,6 @@ void Game::Run()
 			mWindow.display();
 			break;
 		}
-	}
 }
 */
 void Game::MoveSnake(float x, float y)
@@ -368,4 +369,30 @@ sf::RenderWindow& Game::GetWindow()
 sf::Text& Game::GetPauseMessage()
 {
 	return mPauseMessage;
+}
+
+float Game::GetRadius()
+{
+	return mRadius;
+}
+
+std::vector<Circle*>& Game::GetSnake()
+{
+	return mSnake;
+}
+
+std::vector<Circle*>& Game::GetFood()
+{
+	return mFood;
+}
+
+std::vector<Circle*>& Game::GetPoison()
+{
+	return mPoison;
+}
+
+void Game::SetState(IGameState* state)
+{
+	delete mState;
+	mState = state;
 }

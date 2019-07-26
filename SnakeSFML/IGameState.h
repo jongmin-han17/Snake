@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include "Global.h"
 
 class Game;
 

@@ -5,23 +5,23 @@ void GamePlayState::Run(Game& game)
 {
 	if (rand() % 200 == 0)  // Create food
 	{
-		Circle* food = new Circle(mRadius);
-		food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
+		Circle* food = new Circle(game.GetRadius());
+		food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.GetRadius()))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.GetRadius()))));
 		food->setFillColor(sf::Color(0, 0, 255));
 		std::cout << "Food(" << food << ") created!\n";
-		if (mFood.empty())
+		if (game.GetFood().empty())
 		{
-			mFood.push_back(food);
+			game.GetFood().push_back(food);
 		}
 		else
 		{
 			bool bNullFound = false;
-			size_t size = mFood.size();
+			size_t size = game.GetFood().size();
 			for (size_t i = 0; i < size; i++) // Check empty index to save memory
 			{
-				if (mFood[i] == nullptr)
+				if (game.GetFood()[i] == nullptr)
 				{
-					mFood[i] = food;
+					game.GetFood()[i] = food;
 					bNullFound = true;
 					break;
 				}
@@ -29,7 +29,7 @@ void GamePlayState::Run(Game& game)
 
 			if (!bNullFound)
 			{
-				mFood.push_back(food);
+				game.GetFood().push_back(food);
 			}
 		}
 	}
