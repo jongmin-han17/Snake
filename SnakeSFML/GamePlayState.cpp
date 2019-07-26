@@ -1,6 +1,6 @@
 #include "GamePlayState.h"
 
-void GamePlayState::Run(Game & game)
+void GamePlayState::Run(Game& game)
 {
 
 }

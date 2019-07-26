@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include "GameMenuState.h"
 
 Game::Game()
 	: mDeltaTime(0.f)

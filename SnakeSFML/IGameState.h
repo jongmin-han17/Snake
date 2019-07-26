@@ -2,8 +2,8 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include "Game.h"
 
-class Game;
 class GameMenuState;
 class GamePlayState;
 
