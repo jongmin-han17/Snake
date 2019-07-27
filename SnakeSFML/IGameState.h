@@ -6,8 +6,8 @@
 
 class Game;
 
-class IGameState
+class IGameState // Game State Interface
 {
 public:
-	virtual void Run(Game& game) = 0;
+	virtual void Run(Game& game) = 0; // Pure virtual function
 };

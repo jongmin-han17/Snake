@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 #include "GameMenuState.h"
+#include "GamePlayState.h"
+#include "GameOverState.h"
 
 class Game
 {
@@ -24,7 +26,8 @@ public:
 	std::vector<Circle*>& GetSnake();
 	std::vector<Circle*>& GetFood();
 	std::vector<Circle*>& GetPoison();
-	void SetState(IGameState* state);
+	void SetDeltaTime(float deltaTime);
+	sf::Clock& GetClock();
 private:
 	sf::RenderWindow mWindow;
 	std::vector<Circle*> mSnake;
@@ -34,5 +37,9 @@ private:
 	float mRadius;
 	sf::Font mFont;
 	sf::Text mPauseMessage;
+	sf::Clock mClock;
 	IGameState* mState;
+	GameMenuState mGameMenuState;
+	GameOverState mGameOverState;
+	GamePlayState mGamePlayState;
 };

@@ -3,7 +3,7 @@
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
-	, mState(new GameMenuState())
+	, mState(&mGameMenuState)
 {	
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -73,7 +73,6 @@ bool Game::Init()
 }
 void Game::Run()
 {
-	sf::Clock clock;
 	srand(static_cast<unsigned int>(time(0)));
 
 	while (mWindow.isOpen())
@@ -92,35 +91,12 @@ void Game::Run()
 			// Press button A to start the game
 			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0))
 			{
-				if (mGameState == STATE_GAMEOVER)
+				std::cout << "Button A is pressed.\n";
+				if (mState == &mGameOverState) // If the current state is Game Over, then initialize the game.
 				{
-					for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  // Destroy snake
-					{
-						delete *iter;
-					}
-					mSnake.clear();
-
-					for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
-					{
-						if (*iter != nullptr)
-						{
-							delete *iter;
-						}
-					}
-					mFood.clear();
-
-					for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) // Destroy poisoned foods
-					{
-						if (*iter != nullptr)
-						{
-							delete *iter;
-						}
-					}
-					mPoison.clear();
-
 					Init();
 				}
-				mGameState = STATE_PLAY;
+				mState = &mGamePlayState;
 			}
 		}
 
@@ -128,140 +104,6 @@ void Game::Run()
 	}
 }
 
-/*
-void Game::Run()
-{
-		
-		switch (mGameState)
-		{
-		case STATE_GAMEMENU:
-			mWindow.clear(sf::Color(0, 0, 0));
-			// Draw the pause message
-			mWindow.draw(mPauseMessage);
-			mWindow.display();
-			break;
-		case STATE_PLAY:
-			if (rand() % 200 == 0)  // Create food
-			{
-				Circle* food = new Circle(mRadius);
-				food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
-				food->setFillColor(sf::Color(0, 0, 255));
-				std::cout << "Food(" << food << ") created!\n";
-				if (mFood.empty())
-				{
-					mFood.push_back(food);
-				}
-				else
-				{
-					bool bNullFound = false;
-					size_t size = mFood.size();
-					for (size_t i = 0; i < size; i++) // Check empty index to save memory
-					{
-						if (mFood[i] == nullptr)
-						{
-							mFood[i] = food;
-							bNullFound = true;
-							break;
-						}
-					}
-
-					if (!bNullFound)
-					{
-						mFood.push_back(food);
-					}
-				}
-			}
-
-			if (rand() % 500 == 0) // Create poisoned food
-			{
-				Circle* poison = new Circle(mRadius);
-				poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
-				poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
-				std::cout << "Poisoned Food(" << poison << ") created!\n";
-				if (mPoison.empty())
-				{
-					mPoison.push_back(poison);
-				}
-				else
-				{
-					bool bNullFound = false;
-					size_t size = mPoison.size();
-					for (size_t i = 0; i < size; i++) // Check empty index to save memory
-					{
-						if (mPoison[i] == nullptr)
-						{
-							mPoison[i] = poison;
-							bNullFound = true;
-							break;
-						}
-					}
-
-					if (!bNullFound)
-					{
-						mPoison.push_back(poison);
-					}
-				}
-			}
-
-			mDeltaTime = clock.restart().asSeconds();
-
-			if (sf::Joystick::isConnected(0))
-			{
-				float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-				float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-
-				if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
-				{
-					MoveSnake(x, y);
-					DetectFoodCollision();
-					DetectPoisonCollision();
-				}
-				else
-				{
-					int speed = 30;
-					// cos@ = delta x / 2r
-					// sin@ = delta y / 2r
-					// MoveSnake(speed * cos@, speed * sin@)
-					MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius),
-						speed * (mSnake[0]->GetCenterPosition().y - mSnake[1]->GetCenterPosition().y) / (2 * mRadius));
-					DetectFoodCollision(); 
-					DetectPoisonCollision();
-				}
-			}
-			mWindow.clear(sf::Color(0, 0, 0));
-			for (size_t i = 0; i < mSnake.size(); i++)
-			{
-				mWindow.draw(*mSnake[i]);
-			}
-
-			for (size_t i = 0; i < mFood.size(); i++)
-			{
-				if (mFood[i] != nullptr)
-				{
-					mWindow.draw(*mFood[i]);
-				}
-			}
-
-			for (size_t i = 0; i < mPoison.size(); i++)
-			{
-				if (mPoison[i] != nullptr)
-				{
-					mWindow.draw(*mPoison[i]);
-				}
-			}
-			mWindow.display();
-			break;
-		case STATE_GAMEOVER:
-			mPauseMessage.setString("GAME OVER\nPress A to restart the game");
-			mWindow.clear(sf::Color(0, 0, 0));
-			// Draw the pause message
-			mWindow.draw(mPauseMessage);
-			mWindow.display();
-			break;
-		}
-}
-*/
 void Game::MoveSnake(float x, float y)
 {
 	int speed = 4;
@@ -354,7 +196,8 @@ void Game::DetectPoisonCollision()
 				std::cout << "Poisoned food(" << mPoison[i] << ") destroyed\n";
 				delete mPoison[i];
 				mPoison[i] = nullptr;
-				//mGameState = STATE_GAMEOVER;
+
+				mState = &mGameOverState;
 				break;
 			}
 		}
@@ -391,8 +234,12 @@ std::vector<Circle*>& Game::GetPoison()
 	return mPoison;
 }
 
-void Game::SetState(IGameState* state)
+void Game::SetDeltaTime(float deltaTime)
 {
-	delete mState;
-	mState = state;
+	mDeltaTime = deltaTime;
+}
+
+sf::Clock& Game::GetClock()
+{
+	return mClock;
 }

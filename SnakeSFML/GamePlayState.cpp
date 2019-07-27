@@ -36,23 +36,23 @@ void GamePlayState::Run(Game& game)
 
 	if (rand() % 500 == 0) // Create poisoned food
 	{
-		Circle* poison = new Circle(mRadius);
-		poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(mRadius))));
+		Circle* poison = new Circle(game.GetRadius());
+		poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.GetRadius()))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.GetRadius()))));
 		poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
 		std::cout << "Poisoned Food(" << poison << ") created!\n";
-		if (mPoison.empty())
+		if (game.GetPoison().empty())
 		{
-			mPoison.push_back(poison);
+			game.GetPoison().push_back(poison);
 		}
 		else
 		{
 			bool bNullFound = false;
-			size_t size = mPoison.size();
+			size_t size = game.GetPoison().size();
 			for (size_t i = 0; i < size; i++) // Check empty index to save memory
 			{
-				if (mPoison[i] == nullptr)
+				if (game.GetPoison()[i] == nullptr)
 				{
-					mPoison[i] = poison;
+					game.GetPoison()[i] = poison;
 					bNullFound = true;
 					break;
 				}
@@ -60,13 +60,13 @@ void GamePlayState::Run(Game& game)
 
 			if (!bNullFound)
 			{
-				mPoison.push_back(poison);
+				game.GetPoison().push_back(poison);
 			}
 		}
 	}
 
-	mDeltaTime = clock.restart().asSeconds();
-
+	game.SetDeltaTime(game.GetClock().restart().asSeconds());
+	
 	if (sf::Joystick::isConnected(0))
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -75,9 +75,9 @@ void GamePlayState::Run(Game& game)
 
 		if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 		{
-			MoveSnake(x, y);
-			DetectFoodCollision();
-			DetectPoisonCollision();
+			game.MoveSnake(x, y);
+			game.DetectFoodCollision();
+			game.DetectPoisonCollision();
 		}
 		else
 		{
@@ -85,32 +85,32 @@ void GamePlayState::Run(Game& game)
 			// cos@ = delta x / 2r
 			// sin@ = delta y / 2r
 			// MoveSnake(speed * cos@, speed * sin@)
-			MoveSnake(speed * (mSnake[0]->GetCenterPosition().x - mSnake[1]->GetCenterPosition().x) / (2 * mRadius),
-				speed * (mSnake[0]->GetCenterPosition().y - mSnake[1]->GetCenterPosition().y) / (2 * mRadius));
-			DetectFoodCollision();
-			DetectPoisonCollision();
+			game.MoveSnake(speed * (game.GetSnake()[0]->GetCenterPosition().x - game.GetSnake()[1]->GetCenterPosition().x) / (2 * game.GetRadius()),
+				speed * (game.GetSnake()[0]->GetCenterPosition().y - game.GetSnake()[1]->GetCenterPosition().y) / (2 * game.GetRadius()));
+			game.DetectFoodCollision();
+			game.DetectPoisonCollision();
 		}
 	}
-	mWindow.clear(sf::Color(0, 0, 0));
-	for (size_t i = 0; i < mSnake.size(); i++)
+	game.GetWindow().clear(sf::Color(0, 0, 0));
+	for (size_t i = 0; i < game.GetSnake().size(); i++)
 	{
-		mWindow.draw(*mSnake[i]);
+		game.GetWindow().draw(*game.GetSnake()[i]);
 	}
 
-	for (size_t i = 0; i < mFood.size(); i++)
+	for (size_t i = 0; i < game.GetFood().size(); i++)
 	{
-		if (mFood[i] != nullptr)
+		if (game.GetFood()[i] != nullptr)
 		{
-			mWindow.draw(*mFood[i]);
+			game.GetWindow().draw(*game.GetFood()[i]);
 		}
 	}
 
-	for (size_t i = 0; i < mPoison.size(); i++)
+	for (size_t i = 0; i < game.GetPoison().size(); i++)
 	{
-		if (mPoison[i] != nullptr)
+		if (game.GetPoison()[i] != nullptr)
 		{
-			mWindow.draw(*mPoison[i]);
+			game.GetWindow().draw(*game.GetPoison()[i]);
 		}
 	}
-	mWindow.display();
+	game.GetWindow().display();
 }
