@@ -69,6 +69,7 @@ bool Game::Init()
 	mPauseMessage.setFillColor(sf::Color::White);
 	mPauseMessage.setString("Welcome to Snake!\nPress A to start the game");
 
+	
 	return true;
 }
 void Game::Run()
