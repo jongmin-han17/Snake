@@ -89,6 +89,7 @@ void Game::Run()
 				break;
 			}
 
+			/*
 			// Press button A to start the game
 			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0))
 			{
@@ -99,6 +100,7 @@ void Game::Run()
 				}
 				mState = &mGamePlayState;
 			}
+			*/
 		}
 
 		mState->Run(*this);

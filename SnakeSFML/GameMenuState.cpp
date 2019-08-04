@@ -23,7 +23,7 @@ GameMenuState::GameMenuState()
 		std::cout << "Cannot load image.\n";
 		return;
 	}
-	
+
 	if (!mStartButtonFocusTexture.loadFromFile("resources/startButtonFocus.png"))
 	{
 		std::cout << "Cannot load image.\n";
@@ -48,12 +48,11 @@ GameMenuState::GameMenuState()
 
 void GameMenuState::Run(Game& game)
 {
-
 	if (sf::Joystick::isConnected(0))
 	{
 		float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-		if (y > 20.f) // Set dead zone
+		if (y > 50.f) // Set dead zone
 		{
 			if (mButtonFocus == START)
 			{
@@ -63,7 +62,7 @@ void GameMenuState::Run(Game& game)
 			}
 		}
 
-		if (y < -20.f) // Set dead zone
+		if (y < -50.f) // Set dead zone
 		{
 			if (mButtonFocus == QUIT)
 			{
@@ -72,11 +71,22 @@ void GameMenuState::Run(Game& game)
 				mQuitButton.setTexture(mQuitButtonTexture);
 			}
 		}
+
+		if (mButtonFocus == QUIT && sf::Joystick::isButtonPressed(0, 0))
+		{
+			game.mWindow.close();
+		}
+
+		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0))
+		{
+			game.mState = &game.mGamePlayState;
+		}
+
 	}
 
-	game.GetWindow().clear(sf::Color(0, 0, 0));
-	game.GetWindow().draw(mGameTitle);
-	game.GetWindow().draw(mStartButton);
-	game.GetWindow().draw(mQuitButton);
-	game.GetWindow().display();
+	game.mWindow.clear(sf::Color(0, 0, 0));
+	game.mWindow.draw(mGameTitle);
+	game.mWindow.draw(mStartButton);
+	game.mWindow.draw(mQuitButton);
+	game.mWindow.display();
 }

@@ -9,6 +9,7 @@
 
 class Game
 {
+	friend class GameMenuState;
 public:
 	Game();
 	virtual ~Game();
