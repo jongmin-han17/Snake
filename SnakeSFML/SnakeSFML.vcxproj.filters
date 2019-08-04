@@ -56,5 +56,8 @@
     <ClInclude Include="GameOverState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="eButtonFocus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

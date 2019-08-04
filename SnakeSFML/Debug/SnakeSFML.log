@@ -1,7 +1,2 @@
-﻿  Game.cpp
-  GameMenuState.cpp
-  GameOverState.cpp
-  GamePlayState.cpp
-  main.cpp
-  Generating Code...
+﻿  GameMenuState.cpp
   SnakeSFML.vcxproj -> C:\Users\Jongmin\Documents\Snake\Debug\SnakeSFML.exe

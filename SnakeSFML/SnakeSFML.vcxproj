@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="eButtonFocus.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMenuState.h" />
     <ClInclude Include="GameOverState.h" />
