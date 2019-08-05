@@ -3,8 +3,11 @@
 Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
-	, mState(&mGameMenuState)
-{	
+	, mState(nullptr)
+	, mGameMenuState(nullptr)
+	, mGameOverState(nullptr)
+	, mGamePlayState(nullptr)
+{
 	mSnake.reserve(100);
 	mFood.reserve(100);
 	mPoison.reserve(100);
@@ -12,6 +15,10 @@ Game::Game()
 
 Game::~Game()
 {
+	delete mGameMenuState;
+	delete mGamePlayState;
+	delete mGameOverState;
+
 	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  // Destroy snake
 	{
 		delete *iter;
@@ -39,21 +46,8 @@ bool Game::Init()
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
 	mWindow.setFramerateLimit(60);
 
-	Circle* head = new Circle(mRadius);
-	head->setFillColor(sf::Color(145, 2, 247));
-	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
-
-	Circle* body1 = new Circle(mRadius);
-	body1->setFillColor(sf::Color(0, 255, 0));
-	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * mRadius);
-
-	Circle* body2 = new Circle(mRadius);
-	body2->setFillColor(sf::Color(0, 255, 0));
-	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
-
-	mSnake.push_back(head);
-	mSnake.push_back(body1);
-	mSnake.push_back(body2);
+	mGameMenuState = new GameMenuState();
+	mState = mGameMenuState;
 
 	// Load the text font
 	if (!mFont.loadFromFile("C:/Users/Jongmin/source/repos/SnakeSFML/SnakeSFML/resources/sansation.ttf"))
@@ -200,49 +194,9 @@ void Game::DetectPoisonCollision()
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 
-				mState = &mGameOverState;
+				mState = mGameOverState;
 				break;
 			}
 		}
 	}
-}
-
-sf::RenderWindow& Game::GetWindow()
-{
-	return mWindow;
-}
-
-sf::Text& Game::GetPauseMessage()
-{
-	return mPauseMessage;
-}
-
-float Game::GetRadius()
-{
-	return mRadius;
-}
-
-std::vector<Circle*>& Game::GetSnake()
-{
-	return mSnake;
-}
-
-std::vector<Circle*>& Game::GetFood()
-{
-	return mFood;
-}
-
-std::vector<Circle*>& Game::GetPoison()
-{
-	return mPoison;
-}
-
-void Game::SetDeltaTime(float deltaTime)
-{
-	mDeltaTime = deltaTime;
-}
-
-sf::Clock& Game::GetClock()
-{
-	return mClock;
 }

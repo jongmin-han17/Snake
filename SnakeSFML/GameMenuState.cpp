@@ -79,7 +79,8 @@ void GameMenuState::Run(Game& game)
 
 		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0))
 		{
-			game.mState = &game.mGamePlayState;
+			game.mGamePlayState = new GamePlayState(game);
+			game.mState = game.mGamePlayState;
 		}
 
 	}

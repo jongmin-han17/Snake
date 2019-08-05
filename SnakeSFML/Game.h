@@ -10,6 +10,8 @@
 class Game
 {
 	friend class GameMenuState;
+	friend class GamePlayState;
+	friend class GameOverState;
 public:
 	Game();
 	virtual ~Game();
@@ -21,14 +23,6 @@ public:
 	float GetSIN(sf::Vector2f point1, sf::Vector2f point2);
 	void DetectFoodCollision();
 	void DetectPoisonCollision();
-	sf::RenderWindow& GetWindow();
-	sf::Text& GetPauseMessage();
-	float GetRadius();
-	std::vector<Circle*>& GetSnake();
-	std::vector<Circle*>& GetFood();
-	std::vector<Circle*>& GetPoison();
-	void SetDeltaTime(float deltaTime);
-	sf::Clock& GetClock();
 private:
 	sf::RenderWindow mWindow;
 	std::vector<Circle*> mSnake;
@@ -40,7 +34,7 @@ private:
 	sf::Text mPauseMessage;
 	sf::Clock mClock;
 	IGameState* mState;
-	GameMenuState mGameMenuState;
-	GameOverState mGameOverState;
-	GamePlayState mGamePlayState;
+	GameMenuState* mGameMenuState;
+	GameOverState* mGameOverState;
+	GamePlayState* mGamePlayState;
 };

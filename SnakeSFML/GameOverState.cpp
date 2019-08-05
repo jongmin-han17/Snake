@@ -3,34 +3,34 @@
 
 void GameOverState::Run(Game& game)
 {
-	for (auto iter = game.GetSnake().begin(); iter != game.GetSnake().end(); iter++)  // Destroy snake
+	for (auto iter = game.mSnake.begin(); iter != game.mSnake.end(); iter++)  // Destroy snake
 	{
 		delete *iter;
 	}
-	game.GetSnake().clear();
+	game.mSnake.clear();
 
-	for (auto iter = game.GetFood().begin(); iter != game.GetFood().end(); iter++) // Destroy foods
+	for (auto iter = game.mFood.begin(); iter != game.mFood.end(); iter++) // Destroy foods
 	{
 		if (*iter != nullptr)
 		{
 			delete *iter;
 		}
 	}
-	game.GetFood().clear();
+	game.mFood.clear();
 
-	for (auto iter = game.GetPoison().begin(); iter != game.GetPoison().end(); iter++) // Destroy poisoned foods
+	for (auto iter = game.mPoison.begin(); iter != game.mPoison.end(); iter++) // Destroy poisoned foods
 	{
 		if (*iter != nullptr)
 		{
 			delete *iter;
 		}
 	}
-	game.GetPoison().clear();
+	game.mPoison.clear();
 
 
-	game.GetPauseMessage().setString("GAME OVER\nPress A to restart the game");
-	game.GetWindow().clear(sf::Color(0, 0, 0));
+	game.mPauseMessage.setString("GAME OVER\nPress A to restart the game");
+	game.mWindow.clear(sf::Color(0, 0, 0));
 	// Draw the pause message
-	game.GetWindow().draw(game.GetPauseMessage());
-	game.GetWindow().display();
+	game.mWindow.draw(game.mPauseMessage);
+	game.mWindow.display();
 }
