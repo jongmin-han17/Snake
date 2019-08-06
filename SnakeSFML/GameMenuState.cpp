@@ -72,12 +72,12 @@ void GameMenuState::Run(Game& game)
 			}
 		}
 
-		if (mButtonFocus == QUIT && sf::Joystick::isButtonPressed(0, 0))
+		if (mButtonFocus == QUIT && sf::Joystick::isButtonPressed(0, 0)) // If Quit button is clicked,
 		{
 			game.mWindow.close();
 		}
 
-		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0))
+		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0)) // If Start button is clicked,
 		{
 			game.mGamePlayState = new GamePlayState(game);
 			game.mState = game.mGamePlayState;

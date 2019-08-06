@@ -82,19 +82,6 @@ void Game::Run()
 				mWindow.close();
 				break;
 			}
-
-			/*
-			// Press button A to start the game
-			if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::isButtonPressed(0, 0))
-			{
-				std::cout << "Button A is pressed.\n";
-				if (mState == &mGameOverState) // If the current state is Game Over, then initialize the game.
-				{
-					Init();
-				}
-				mState = &mGamePlayState;
-			}
-			*/
 		}
 
 		mState->Run(*this);
@@ -194,6 +181,7 @@ void Game::DetectPoisonCollision()
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 
+				mGameOverState = new GameOverState();
 				mState = mGameOverState;
 				break;
 			}

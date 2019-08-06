@@ -22,14 +22,12 @@ GamePlayState::GamePlayState(Game& game)
 
 void GamePlayState::Run(Game& game)
 {
-	std::cout << "Current Position (" << game.mSnake[0]->GetCenterPosition().x << ", " << game.mSnake[0]->GetCenterPosition().y << ")\n";
-
 	if (rand() % 200 == 0)  // Create food
 	{
 		Circle* food = new Circle(game.mRadius);
 		food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.mRadius))));
 		food->setFillColor(sf::Color(0, 0, 255));
-		std::cout << "Food(" << food << ") created!\n";
+
 		if (game.mFood.empty())
 		{
 			game.mFood.push_back(food);
@@ -60,7 +58,7 @@ void GamePlayState::Run(Game& game)
 		Circle* poison = new Circle(game.mRadius);
 		poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.mRadius))));
 		poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
-		std::cout << "Poisoned Food(" << poison << ") created!\n";
+
 		if (game.mPoison.empty())
 		{
 			game.mPoison.push_back(poison);
@@ -88,7 +86,9 @@ void GamePlayState::Run(Game& game)
 
 	game.mDeltaTime = game.mClock.restart().asSeconds();
 
-	if (sf::Joystick::isConnected(0))
+	static bool bJoystickSignalDetected = false;
+
+	if (sf::Joystick::isConnected(0))  // Detect joystick and move the snake
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 		float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
@@ -96,20 +96,24 @@ void GamePlayState::Run(Game& game)
 
 		if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 		{
+			bJoystickSignalDetected = true;
 			game.MoveSnake(x, y);
 			game.DetectFoodCollision();
 			game.DetectPoisonCollision();
 		}
 		else
 		{
-			int speed = 30;
-			// cos@ = delta x / 2r
-			// sin@ = delta y / 2r
-			// MoveSnake(speed * cos@, speed * sin@)
-			game.MoveSnake(speed * (game.mSnake[0]->GetCenterPosition().x - game.mSnake[1]->GetCenterPosition().x) / (2 * game.mRadius),
-				speed * (game.mSnake[0]->GetCenterPosition().y - game.mSnake[1]->GetCenterPosition().y) / (2 * game.mRadius));
-			game.DetectFoodCollision();
-			game.DetectPoisonCollision();
+			if (bJoystickSignalDetected)
+			{
+				int speed = 30;
+				// cos@ = delta x / 2r
+				// sin@ = delta y / 2r
+				// MoveSnake(speed * cos@, speed * sin@)
+				game.MoveSnake(speed * (game.mSnake[0]->GetCenterPosition().x - game.mSnake[1]->GetCenterPosition().x) / (2 * game.mRadius),
+					speed * (game.mSnake[0]->GetCenterPosition().y - game.mSnake[1]->GetCenterPosition().y) / (2 * game.mRadius));
+				game.DetectFoodCollision();
+				game.DetectPoisonCollision();
+			}
 		}
 	}
 	game.mWindow.clear(sf::Color(0, 0, 0));
