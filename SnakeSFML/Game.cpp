@@ -49,9 +49,8 @@ bool Game::Init()
 	mState = mGameMenuState;
 
 	// Load the text font
-	if (!mFont.loadFromFile("C:/Users/Jongmin/source/repos/SnakeSFML/SnakeSFML/resources/sansation.ttf"))
+	if (!mFont.loadFromFile("resources/sansation.ttf"))
 	{
-		std::cout << "Failed to initialize the game\n";
 		return false;
 	}
 
@@ -61,6 +60,12 @@ bool Game::Init()
 	mPauseMessage.setPosition(170.f, 150.f);
 	mPauseMessage.setFillColor(sf::Color::White);
 
+	// Load the sounds used in the game
+	if (!mEatingSoundBuffer.loadFromFile("resources/eatingFood.wav"))
+	{
+		return false;
+	}
+	mEatingSound.setBuffer(mEatingSoundBuffer);
 
 	// Initialize the snake
 	Circle* head = new Circle(mRadius);
@@ -191,7 +196,7 @@ void Game::DetectFoodCollision()
 		{
 			if (GetDistance(mFood[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
 			{
-				std::cout << "Food(" << mFood[i] << ") destroyed\n";
+				mEatingSound.play();
 				delete mFood[i];
 				mFood[i] = nullptr;
 
@@ -213,7 +218,6 @@ void Game::DetectPoisonCollision()
 		{
 			if (GetDistance(mPoison[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
 			{
-				std::cout << "Poisoned food(" << mPoison[i] << ") destroyed\n";
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 

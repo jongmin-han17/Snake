@@ -25,6 +25,8 @@ public:
 	void DetectPoisonCollision();
 private:
 	sf::RenderWindow mWindow;
+	sf::SoundBuffer mEatingSoundBuffer;
+	sf::Sound mEatingSound;
 	std::vector<Circle*> mSnake;
 	std::vector<Circle*> mFood;
 	std::vector<Circle*> mPoison;
