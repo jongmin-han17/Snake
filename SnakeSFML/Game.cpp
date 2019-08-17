@@ -6,7 +6,7 @@ Game::Game()
 	, mState(nullptr)
 	, mGameMenuState(new GameMenuState())
 	, mGameOverState(new GameOverState())
-	, mGamePlayState(new GamePlayState(*this))
+	, mGamePlayState(new GamePlayState())
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -61,6 +61,24 @@ bool Game::Init()
 	mPauseMessage.setPosition(170.f, 150.f);
 	mPauseMessage.setFillColor(sf::Color::White);
 
+
+	// Initialize the snake
+	Circle* head = new Circle(mRadius);
+	head->setFillColor(sf::Color(145, 2, 247));
+	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
+
+	Circle* body1 = new Circle(mRadius);
+	body1->setFillColor(sf::Color(0, 255, 0));
+	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * mRadius);
+
+	Circle* body2 = new Circle(mRadius);
+	body2->setFillColor(sf::Color(0, 255, 0));
+	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
+
+	mSnake.push_back(head);
+	mSnake.push_back(body1);
+	mSnake.push_back(body2);
+
 	
 	return true;
 }
@@ -81,9 +99,25 @@ void Game::Run()
 				break;
 			}
 		}
-		if (mState == mGameOverState && sf::Joystick::isButtonPressed(0, 0)) // Game Over to Game Play
+		if (mState == mGameOverState && sf::Joystick::isButtonPressed(0, 0)) // Restart the game
 		{
 			mState = mGamePlayState;
+
+			Circle* head = new Circle(mRadius);
+			head->setFillColor(sf::Color(145, 2, 247));
+			head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
+
+			Circle* body1 = new Circle(mRadius);
+			body1->setFillColor(sf::Color(0, 255, 0));
+			body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * mRadius);
+
+			Circle* body2 = new Circle(mRadius);
+			body2->setFillColor(sf::Color(0, 255, 0));
+			body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * mRadius);
+
+			mSnake.push_back(head);
+			mSnake.push_back(body1);
+			mSnake.push_back(body2);
 		}
 
 		mState->Run(*this);
@@ -184,6 +218,7 @@ void Game::DetectPoisonCollision()
 				mPoison[i] = nullptr;
 
 				mState = mGameOverState;  // Game Over
+				mGamePlayState->SetIsJoystickSignalDetected(false); // Joystick signal detector has to be set as false.
 				break;
 			}
 		}

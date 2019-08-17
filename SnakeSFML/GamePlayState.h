@@ -4,6 +4,9 @@
 class GamePlayState : public IGameState
 {
 public:
-	GamePlayState(Game& game);
+	GamePlayState();
 	void Run(Game& game);
+	void SetIsJoystickSignalDetected(bool enabled);
+private:
+	bool mbJoystickSignalDetected;
 };

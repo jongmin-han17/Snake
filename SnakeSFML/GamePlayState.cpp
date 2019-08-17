@@ -1,23 +1,9 @@
 #include "GamePlayState.h"
 #include "Game.h"
 
-GamePlayState::GamePlayState(Game& game)
+GamePlayState::GamePlayState()
+	: mbJoystickSignalDetected(false)
 {
-	Circle* head = new Circle(game.mRadius);
-	head->setFillColor(sf::Color(145, 2, 247));
-	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
-
-	Circle* body1 = new Circle(game.mRadius);
-	body1->setFillColor(sf::Color(0, 255, 0));
-	body1->setPosition(head->getPosition().x, head->getPosition().y + 2 * game.mRadius);
-
-	Circle* body2 = new Circle(game.mRadius);
-	body2->setFillColor(sf::Color(0, 255, 0));
-	body2->setPosition(body1->getPosition().x, body1->getPosition().y + 2 * game.mRadius);
-
-	game.mSnake.push_back(head);
-	game.mSnake.push_back(body1);
-	game.mSnake.push_back(body2);
 }
 
 void GamePlayState::Run(Game& game)
@@ -86,8 +72,6 @@ void GamePlayState::Run(Game& game)
 
 	game.mDeltaTime = game.mClock.restart().asSeconds();
 
-	static bool bJoystickSignalDetected = false;
-
 	if (sf::Joystick::isConnected(0))  // Detect joystick and move the snake
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -96,14 +80,14 @@ void GamePlayState::Run(Game& game)
 
 		if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
 		{
-			bJoystickSignalDetected = true;
+			mbJoystickSignalDetected = true;
 			game.MoveSnake(x, y);
 			game.DetectFoodCollision();
 			game.DetectPoisonCollision();
 		}
 		else
 		{
-			if (bJoystickSignalDetected)
+			if (mbJoystickSignalDetected)
 			{
 				int speed = 30;
 				// cos@ = delta x / 2r
@@ -138,4 +122,9 @@ void GamePlayState::Run(Game& game)
 		}
 	}
 	game.mWindow.display();
+}
+
+void GamePlayState::SetIsJoystickSignalDetected(bool enabled)
+{
+	mbJoystickSignalDetected = enabled;
 }
