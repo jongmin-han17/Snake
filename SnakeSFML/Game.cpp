@@ -4,9 +4,9 @@ Game::Game()
 	: mDeltaTime(0.f)
 	, mRadius(5.f)
 	, mState(nullptr)
-	, mGameMenuState(nullptr)
-	, mGameOverState(nullptr)
-	, mGamePlayState(nullptr)
+	, mGameMenuState(new GameMenuState())
+	, mGameOverState(new GameOverState())
+	, mGamePlayState(new GamePlayState(*this))
 {
 	mSnake.reserve(100);
 	mFood.reserve(100);
@@ -46,7 +46,6 @@ bool Game::Init()
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
 	mWindow.setFramerateLimit(60);
 
-	mGameMenuState = new GameMenuState();
 	mState = mGameMenuState;
 
 	// Load the text font
@@ -61,7 +60,6 @@ bool Game::Init()
 	mPauseMessage.setCharacterSize(40);
 	mPauseMessage.setPosition(170.f, 150.f);
 	mPauseMessage.setFillColor(sf::Color::White);
-	mPauseMessage.setString("Welcome to Snake!\nPress A to start the game");
 
 	
 	return true;
@@ -82,6 +80,10 @@ void Game::Run()
 				mWindow.close();
 				break;
 			}
+		}
+		if (mState == mGameOverState && sf::Joystick::isButtonPressed(0, 0)) // Game Over to Game Play
+		{
+			mState = mGamePlayState;
 		}
 
 		mState->Run(*this);
@@ -181,8 +183,7 @@ void Game::DetectPoisonCollision()
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 
-				mGameOverState = new GameOverState();
-				mState = mGameOverState;
+				mState = mGameOverState;  // Game Over
 				break;
 			}
 		}
