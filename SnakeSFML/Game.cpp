@@ -238,8 +238,12 @@ void Game::DetectPoisonCollision()
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 
-				mState = mGameOverState;  // 게임 오버
-				mGamePlayState->SetIsJoystickSignalDetected(false); // 게임 오버되었을 때 게임패드 신호를 false로 전환
+				// 게임 오버
+				mState = mGameOverState;  
+
+				// 게임 오버되었을 때 게임패드 신호를 false로 전환
+				mGamePlayState->SetIsJoystickSignalDetected(false); 
+
 				break;
 			}
 		}
