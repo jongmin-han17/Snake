@@ -49,6 +49,10 @@ GameMenuState::GameMenuState()
 	mQuitButton.setPosition(565, 440);
 }
 
+GameMenuState::~GameMenuState()
+{
+}
+
 void GameMenuState::Run(Game& game)
 {
 	if (sf::Joystick::isConnected(0))

@@ -6,6 +6,7 @@ class GamePlayState : public IGameState
 {
 public:
 	GamePlayState();
+	~GamePlayState();
 	void Run(Game& game);
 
 	// 게임패드 신호 감지 여부를 설정

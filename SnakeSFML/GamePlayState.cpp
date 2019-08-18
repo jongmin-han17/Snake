@@ -6,6 +6,10 @@ GamePlayState::GamePlayState()
 {
 }
 
+GamePlayState::~GamePlayState()
+{
+}
+
 void GamePlayState::Run(Game& game)
 {
 	// 먹이 생성

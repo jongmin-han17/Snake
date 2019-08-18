@@ -213,10 +213,14 @@ void Game::DetectFoodCollision()
 		{
 			if (GetDistance(mFood[i]->GetCenterPosition(), mSnake[0]->GetCenterPosition()) <= 2 * mRadius)
 			{
+				// 먹이를 먹었을 때 소리 내기
 				mEatingSound.play();
+
+				// 해당 먹이를 삭제
 				delete mFood[i];
 				mFood[i] = nullptr;
 
+				// 뱀 몸체에 원 하나 추가
 				Circle* body = new Circle(mRadius);
 				body->setFillColor(sf::Color(0, 255, 0));
 				body->setPosition(-10, -10);

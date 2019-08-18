@@ -1,6 +1,14 @@
 ﻿#include "GameOverState.h"
 #include "Game.h"
 
+GameOverState::GameOverState()
+{
+}
+
+GameOverState::~GameOverState()
+{
+}
+
 void GameOverState::Run(Game& game)
 {
 	// 뱀 메모리 해제

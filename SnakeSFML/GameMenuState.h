@@ -7,7 +7,7 @@ class GameMenuState : public IGameState
 {
 public:
 	GameMenuState();
-	virtual ~GameMenuState() = default;
+	virtual ~GameMenuState();
 	void Run(Game& game);
 private:
 	// 게임 제목

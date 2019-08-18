@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include "Circle.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <SFML/Audio.hpp>
+#include "Circle.h"
 #include "GameMenuState.h"
 #include "GamePlayState.h"
 #include "GameOverState.h"

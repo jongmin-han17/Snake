@@ -5,5 +5,7 @@
 class GameOverState : public IGameState
 {
 public:
+	GameOverState();
+	~GameOverState();
 	void Run(Game& game);
 };
