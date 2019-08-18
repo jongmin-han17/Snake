@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 Game::Game()
 	: mDeltaTime(0.f)
@@ -8,6 +8,7 @@ Game::Game()
 	, mGameOverState(new GameOverState())
 	, mGamePlayState(new GamePlayState())
 {
+	// 메모리 공간 할당
 	mSnake.reserve(100);
 	mFood.reserve(100);
 	mPoison.reserve(100);
@@ -19,12 +20,15 @@ Game::~Game()
 	delete mGamePlayState;
 	delete mGameOverState;
 
-	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  // Destroy snake
+
+	// mSnake 메모리 해제
+	for (auto iter = mSnake.begin(); iter != mSnake.end(); iter++)  
 	{
 		delete *iter;
 	}
 
-	for (auto iter = mFood.begin(); iter != mFood.end(); iter++) // Destroy foods
+	// mFood 메모리 해제
+	for (auto iter = mFood.begin(); iter != mFood.end(); iter++) 
 	{
 		if (*iter != nullptr)
 		{
@@ -32,7 +36,8 @@ Game::~Game()
 		}
 	}
 
-	for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) // Destroy poisoned foods
+	// mPoison 메모리 해제
+	for (auto iter = mPoison.begin(); iter != mPoison.end(); iter++) 
 	{
 		if (*iter != nullptr)
 		{
@@ -43,31 +48,36 @@ Game::~Game()
 
 bool Game::Init()
 {
+	// 윈도우 생성
 	mWindow.create(sf::VideoMode(GAME_WIDTH, GAME_HEIGHT), "Snake", sf::Style::Titlebar | sf::Style::Close);
-	mWindow.setFramerateLimit(60);
 
+	// 60프레임 고정
+	mWindow.setFramerateLimit(60); 
+
+	// 게임 메뉴 상태
 	mState = mGameMenuState;
 
-	// Load the text font
+	// 폰트 가져오기
 	if (!mFont.loadFromFile("resources/sansation.ttf"))
 	{
 		return false;
 	}
 
-	// Initialize the pause message
+	// mPauseMessage 초기화
 	mPauseMessage.setFont(mFont);
 	mPauseMessage.setCharacterSize(40);
 	mPauseMessage.setPosition(170.f, 150.f);
 	mPauseMessage.setFillColor(sf::Color::White);
 
-	// Load the sounds used in the game
+	// 사운드 가져오기
 	if (!mEatingSoundBuffer.loadFromFile("resources/eatingFood.wav"))
 	{
 		return false;
 	}
+	// mEatingSound 초기화
 	mEatingSound.setBuffer(mEatingSoundBuffer);
 
-	// Initialize the snake
+	// Snake 초기화
 	Circle* head = new Circle(mRadius);
 	head->setFillColor(sf::Color(145, 2, 247));
 	head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
@@ -89,6 +99,7 @@ bool Game::Init()
 }
 void Game::Run()
 {
+	// seed값 설정
 	srand(static_cast<unsigned int>(time(0)));
 
 	while (mWindow.isOpen())
@@ -97,17 +108,21 @@ void Game::Run()
 
 		while (mWindow.pollEvent(event))
 		{
-			// Window closed or escape key pressed: exit
+			// Escape 키 또는 윈도우 닫기가 입력되었을 때 게임 종료
 			if ((event.type == sf::Event::Closed) || ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
 			{
 				mWindow.close();
 				break;
 			}
 		}
-		if (mState == mGameOverState && sf::Joystick::isButtonPressed(0, 0)) // Restart the game
+
+		// 게임 오버된 상태에서 게임패드 A버튼이 입력되었을 때 게임 재시작
+		if (mState == mGameOverState && sf::Joystick::isButtonPressed(0, 0))
 		{
+			// 게임 상태를 게임오버에서 게임플레이로 전환
 			mState = mGamePlayState;
 
+			// Snake 다시 만들기
 			Circle* head = new Circle(mRadius);
 			head->setFillColor(sf::Color(145, 2, 247));
 			head->setPosition(static_cast<float>(GAME_WIDTH) / 2.f, static_cast<float>(GAME_HEIGHT) / 2.f);
@@ -136,7 +151,8 @@ void Game::MoveSnake(float x, float y)
 
 	for (int i = 0; i < size; i++)
 	{
-		if (i == 0) // Move head
+		// 머리 움직임
+		if (i == 0)
 		{
 			if (mSnake[i]->getPosition().x < 0 && x <= 0)
 			{
@@ -159,7 +175,7 @@ void Game::MoveSnake(float x, float y)
 				mSnake[i]->move(x * mDeltaTime * speed, y * mDeltaTime * speed);
 			}
 		}
-		else  // Move body
+		else  // 몸체 움직임
 		{
 			// (x - 2rcos@, y + 2rsin@)
 			float x = mSnake[i - 1]->getPosition().x;
@@ -175,7 +191,8 @@ void Game::MoveSnake(float x, float y)
 
 float Game::GetDistance(sf::Vector2f point1, sf::Vector2f point2)
 {
-	return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));  // Pythagorean theorem
+	// 피타고라스의 정리 사용
+	return sqrt(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2)); 
 }
 
 float Game::GetCOS(sf::Vector2f point1, sf::Vector2f point2)
@@ -221,8 +238,8 @@ void Game::DetectPoisonCollision()
 				delete mPoison[i];
 				mPoison[i] = nullptr;
 
-				mState = mGameOverState;  // Game Over
-				mGamePlayState->SetIsJoystickSignalDetected(false); // Joystick signal detector has to be set as false.
+				mState = mGameOverState;  // 게임 오버
+				mGamePlayState->SetIsJoystickSignalDetected(false); // 게임 오버되었을 때 게임패드 신호를 false로 전환
 				break;
 			}
 		}

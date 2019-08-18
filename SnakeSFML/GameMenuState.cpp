@@ -1,35 +1,38 @@
-#include "GameMenuState.h"
+﻿#include "GameMenuState.h"
 #include "Game.h"
 
 GameMenuState::GameMenuState()
 	: mButtonFocus(START)
 {
-	// Initialize Start Button.
+	// 게임 시작 버튼 텍스쳐 생성
 	if (!mStartButtonTexture.loadFromFile("resources/startButton.png"))
 	{
 		std::cout << "Cannot load image.\n";
 		return;
 	}
 
+	// 게임 종료 버튼 텍스쳐 생성
 	if (!mQuitButtonTexture.loadFromFile("resources/quitButton.png"))
 	{
 		std::cout << "Cannot load image.\n";
 		return;
 	}
 
-
+	// 게임 타이틀 텍스쳐 생성
 	if (!mGameTitleTexture.loadFromFile("resources/gameTitle.png"))
 	{
 		std::cout << "Cannot load image.\n";
 		return;
 	}
 
+	// 게임 시작 버튼 포커스 텍스쳐 생성
 	if (!mStartButtonFocusTexture.loadFromFile("resources/startButtonFocus.png"))
 	{
 		std::cout << "Cannot load image.\n";
 		return;
 	}
 
+	// 게임 종료 버튼 텍스쳐 생성
 	if (!mQuitButtonFocusTexture.loadFromFile("resources/quitButtonFocus.png"))
 	{
 		std::cout << "Cannot load image.\n";
@@ -52,7 +55,9 @@ void GameMenuState::Run(Game& game)
 	{
 		float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-		if (y > 50.f) // Set dead zone
+		// 불감대(dead zone) 설정
+		// y축 절대값 50 이하의 신호는 무시
+		if (y > 50.f)
 		{
 			if (mButtonFocus == START)
 			{
@@ -62,7 +67,9 @@ void GameMenuState::Run(Game& game)
 			}
 		}
 
-		if (y < -50.f) // Set dead zone
+		// 불감대(dead zone) 설정
+		// y축 절대값 50 이하의 신호는 무시
+		if (y < -50.f)
 		{
 			if (mButtonFocus == QUIT)
 			{
@@ -72,12 +79,14 @@ void GameMenuState::Run(Game& game)
 			}
 		}
 
-		if (mButtonFocus == QUIT && sf::Joystick::isButtonPressed(0, 0)) // If Quit button is clicked,
+		// 종료 버튼이 눌러졌을 경우 게임 종료
+		if (mButtonFocus == QUIT && sf::Joystick::isButtonPressed(0, 0)) 
 		{
 			game.mWindow.close();
 		}
 
-		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0)) // If Start button is clicked,
+		// 시작 버튼이 눌러졌을 경우 게임 시작
+		if (mButtonFocus == START && sf::Joystick::isButtonPressed(0, 0))
 		{
 			game.mState = game.mGamePlayState;
 		}

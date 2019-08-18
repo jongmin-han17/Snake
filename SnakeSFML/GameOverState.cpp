@@ -1,15 +1,17 @@
-#include "GameOverState.h"
+﻿#include "GameOverState.h"
 #include "Game.h"
 
 void GameOverState::Run(Game& game)
 {
-	for (auto iter = game.mSnake.begin(); iter != game.mSnake.end(); iter++)  // Destroy snake
+	// 뱀 메모리 해제
+	for (auto iter = game.mSnake.begin(); iter != game.mSnake.end(); iter++)  
 	{
 		delete *iter;
 	}
 	game.mSnake.clear();
 
-	for (auto iter = game.mFood.begin(); iter != game.mFood.end(); iter++) // Destroy foods
+	// 먹이 메모리 해제
+	for (auto iter = game.mFood.begin(); iter != game.mFood.end(); iter++) 
 	{
 		if (*iter != nullptr)
 		{
@@ -18,7 +20,8 @@ void GameOverState::Run(Game& game)
 	}
 	game.mFood.clear();
 
-	for (auto iter = game.mPoison.begin(); iter != game.mPoison.end(); iter++) // Destroy poisoned foods
+	// 독먹이 메모리 해제
+	for (auto iter = game.mPoison.begin(); iter != game.mPoison.end(); iter++)
 	{
 		if (*iter != nullptr)
 		{
@@ -30,7 +33,7 @@ void GameOverState::Run(Game& game)
 
 	game.mPauseMessage.setString("GAME OVER\nPress A to restart the game");
 	game.mWindow.clear(sf::Color(0, 0, 0));
-	// Draw the pause message
+	// 게임 오버 메시지 출력
 	game.mWindow.draw(game.mPauseMessage);
 	game.mWindow.display();
 }

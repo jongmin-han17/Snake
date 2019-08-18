@@ -1,4 +1,4 @@
-#include "GamePlayState.h"
+﻿#include "GamePlayState.h"
 #include "Game.h"
 
 GamePlayState::GamePlayState()
@@ -8,7 +8,8 @@ GamePlayState::GamePlayState()
 
 void GamePlayState::Run(Game& game)
 {
-	if (rand() % 200 == 0)  // Create food
+	// 먹이 생성
+	if (rand() % 200 == 0) 
 	{
 		Circle* food = new Circle(game.mRadius);
 		food->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.mRadius))));
@@ -22,7 +23,9 @@ void GamePlayState::Run(Game& game)
 		{
 			bool bNullFound = false;
 			size_t size = game.mFood.size();
-			for (size_t i = 0; i < size; i++) // Check empty index to save memory
+
+			// 비어있는 메모리 공간 탐색
+			for (size_t i = 0; i < size; i++) 
 			{
 				if (game.mFood[i] == nullptr)
 				{
@@ -39,11 +42,12 @@ void GamePlayState::Run(Game& game)
 		}
 	}
 
-	if (rand() % 500 == 0) // Create poisoned food
+	// 독 먹이 생성
+	if (rand() % 500 == 0)
 	{
 		Circle* poison = new Circle(game.mRadius);
 		poison->setPosition(static_cast<float>(rand() % (GAME_WIDTH - static_cast<int>(game.mRadius))), static_cast<float>(rand() % (GAME_HEIGHT - static_cast<int>(game.mRadius))));
-		poison->setFillColor(sf::Color(255, 0, 0)); // Set poisoned food color red
+		poison->setFillColor(sf::Color(255, 0, 0)); // 독 먹이를 붉은색으로 설정.
 
 		if (game.mPoison.empty())
 		{
@@ -53,7 +57,9 @@ void GamePlayState::Run(Game& game)
 		{
 			bool bNullFound = false;
 			size_t size = game.mPoison.size();
-			for (size_t i = 0; i < size; i++) // Check empty index to save memory
+
+			// 비어있는 메모리 공간 탐색
+			for (size_t i = 0; i < size; i++)
 			{
 				if (game.mPoison[i] == nullptr)
 				{
@@ -72,13 +78,16 @@ void GamePlayState::Run(Game& game)
 
 	game.mDeltaTime = game.mClock.restart().asSeconds();
 
-	if (sf::Joystick::isConnected(0))  // Detect joystick and move the snake
+	// 게임패드가 연결되어있는지 확인
+	if (sf::Joystick::isConnected(0))
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 		float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
 
-		if (x > 15.f || x < -15.f || y > 15.f || y < -15.f) // Set dead zone
+		// 불감대(dead zone) 설정
+		// x축, y축 모두 절대값 15이하의 신호 무시
+		if (x > 15.f || x < -15.f || y > 15.f || y < -15.f)
 		{
 			mbJoystickSignalDetected = true;
 			game.MoveSnake(x, y);
